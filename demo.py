@@ -1,27 +1,27 @@
-# import sqlite3
-# from tkinter import *
-# from tkinter import messagebox
+ import sqlite3
+from tkinter import *
+from tkinter import messagebox
 
-# # Connect and create database tables
-# def init_db():
-#     conn = sqlite3.connect("dog_adoption_app.db")
-#     c = conn.cursor()
-#     c.execute("""
-#         CREATE TABLE IF NOT EXISTS users (
-#             user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-#             name TEXT NOT NULL,
-#             contact TEXT NOT NULL
-#         )
-#     """)
-#     c.execute("""
-#         CREATE TABLE IF NOT EXISTS adoptions (
-#             adoption_id INTEGER PRIMARY KEY AUTOINCREMENT,
-#             user_id INTEGER,
-#             dog_name TEXT NOT NULL,
-#             breed TEXT NOT NULL,
-#             FOREIGN KEY(user_id) REFERENCES users(user_id)
-#         )
-#     """)
+ Connect and create database tables
+def init_db():
+     conn = sqlite3.connect("dog_adoption_app.db")
+     c = conn.cursor()
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+             name TEXT NOT NULL,
+             contact TEXT NOT NULL
+         )
+     """)
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS adoptions (
+            adoption_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+             dog_name TEXT NOT NULL,
+             breed TEXT NOT NULL,
+             FOREIGN KEY(user_id) REFERENCES users(user_id)
+         )
+    """)
 #     conn.commit()
 #     conn.close()
 
@@ -74,193 +74,191 @@
 # #     contact_entry = Entry(root, width=35)
 # #     contact_entry.place(x=180, y=150)
 
-# #     def register_user():
-# #         name = name_entry.get()
-# #         contact = contact_entry.get()
+     def register_user():
+         name = name_entry.get()
+         contact = contact_entry.get()
 
-# #         if not name or not contact:
-# #             messagebox.showerror("Error", "Please fill all fields")
-# #             return
+        if not name or not contact:
+            messagebox.showerror("Error", "Please fill all fields")
+             return
 
-# #         conn = sqlite3.connect("dog_adoption_app.db")
-# #         c = conn.cursor()
-# #         c.execute("INSERT INTO users (name, contact) VALUES (?, ?)", (name, contact))
-# #         user_id = c.lastrowid  # get the ID of the inserted user
-# #         conn.commit()
-# #         conn.close()
+         conn = sqlite3.connect("dog_adoption_app.db")
+         c = conn.cursor()
+         c.execute("INSERT INTO users (name, contact) VALUES (?, ?)", (name, contact))
+        user_id = c.lastrowid  # get the ID of the inserted user         conn.commit()
+         conn.close()
 
-# #         messagebox.showinfo("Registered", f"Welcome {name}!\nNow choose a dog.")
-# #         root.withdraw()  # hide registration window
-# #         open_adoption_window(user_id)
+         messagebox.showinfo("Registered", f"Welcome {name}!\nNow choose a dog.")
+        root.withdraw()  # hide registration window
+         open_adoption_window(user_id)
 
-# #     Button(root, text="Register", bg="green", fg="white", font=("Arial", 11), command=register_user).place(x=200, y=220)
+    Button(root, text="Register", bg="green", fg="white", font=("Arial", 11), command=register_user).place(x=200, y=220)
 
-# #     root.mainloop()
+    root.mainloop()
 
-# # # Run everything
-# # init_db()
-# # main_window()
+ # Run everything
+ init_db()
+# main_window()
 
-# import sqlite3
-# from tkinter import *
-# from tkinter import messagebox
+import sqlite3
+from tkinter import *
+from tkinter import messagebox
 
 # # -------------------- Initialize DB --------------------
-# def init_db():
-#     conn = sqlite3.connect("dog_adoption_app.db")
-#     c = conn.cursor()
+ def init_db():
+    conn = sqlite3.connect("dog_adoption_app.db")
+     c = conn.cursor()
 
-#     # Users table
-#     c.execute("""
-#         CREATE TABLE IF NOT EXISTS users (
-#             user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-#             name TEXT NOT NULL,
-#             contact TEXT NOT NULL
-#         )
-#     """)
+    # Users table
+    c.execute("""
+         CREATE TABLE IF NOT EXISTS users (
+            user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+             contact TEXT NOT NULL
+         )
+     """)
 
-#     # Dogs table (list of available dogs)
-#     c.execute("""
-#         CREATE TABLE IF NOT EXISTS dogs (
-#             dog_id INTEGER PRIMARY KEY AUTOINCREMENT,
-#             dog_name TEXT NOT NULL,
-#             breed TEXT NOT NULL
-#         )
-#     """)
+    # Dogs table (list of available dogs)
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS dogs (
+             dog_id INTEGER PRIMARY KEY AUTOINCREMENT,
+             dog_name TEXT NOT NULL,
+             breed TEXT NOT NULL
+         )    """)
 
-#     # Adoptions table (records adoption)
-#     c.execute("""
-#         CREATE TABLE IF NOT EXISTS adoptions (
-#             adoption_id INTEGER PRIMARY KEY AUTOINCREMENT,
-#             user_id INTEGER,
-#             dog_id INTEGER,
-#             FOREIGN KEY(user_id) REFERENCES users(user_id),
-#             FOREIGN KEY(dog_id) REFERENCES dogs(dog_id)
-#         )
-#     """)
+    # Adoptions table (records adoption)
+    c.execute("""
+# #         CREATE TABLE IF NOT EXISTS adoptions (
+# #             adoption_id INTEGER PRIMARY KEY AUTOINCREMENT,
+# #             user_id INTEGER,
+# #             dog_id INTEGER,
+# #             FOREIGN KEY(user_id) REFERENCES users(user_id),
+# #             FOREIGN KEY(dog_id) REFERENCES dogs(dog_id)
+# #         )
+# #     """)
 
-#     # Insert sample dogs if not already present
-#     c.execute("SELECT COUNT(*) FROM dogs")
-#     count = c.fetchone()[0]
-#     if count == 0:
-#         sample_dogs = [
-#             ('Buddy', 'Golden Retriever'),
-#             ('Max', 'German Shepherd'),
-#             ('Bella', 'Labrador'),
-#             ('Lucy', 'Beagle'),
-#             ('Charlie', 'Pug'),
-#             ('Rocky', 'Bulldog')
-#         ]
-#         c.executemany("INSERT INTO dogs (dog_name, breed) VALUES (?, ?)", sample_dogs)
+    # Insert sample dogs if not already present
+    c.execute("SELECT COUNT(*) FROM dogs")
+    count = c.fetchone()[0]
+    if count == 0:
+        sample_dogs = [
+            ('Buddy', 'Golden Retriever'),
+            ('Max', 'German Shepherd'),
+            ('Bella', 'Labrador'),
+            ('Lucy', 'Beagle'),
+            ('Charlie', 'Pug'),
+            ('Rocky', 'Bulldog')
+        ]
+        c.executemany("INSERT INTO dogs (dog_name, breed) VALUES (?, ?)", sample_dogs)
 
-#     conn.commit()
-#     conn.close()
+    conn.commit()
+    conn.close()
 
-# # -------------------- Adoption Window --------------------
-# def open_adoption_window(user_id):
-#     adoption_win = Toplevel()
-#     adoption_win.geometry("600x500")
-#     adoption_win.title("Available Dogs for Adoption")
+# -------------------- Adoption Window --------------------
+def open_adoption_window(user_id):
+    adoption_win = Toplevel()
+    adoption_win.geometry("600x500")
+    adoption_win.title("Available Dogs for Adoption")
 
-#     Label(adoption_win, text="Search Dogs", font=("Arial", 12, "bold")).place(x=20, y=20)
-#     search_entry = Entry(adoption_win, width=30)
-#     search_entry.place(x=150, y=20)
+    Label(adoption_win, text="Search Dogs", font=("Arial", 12, "bold")).place(x=20, y=20)
+    search_entry = Entry(adoption_win, width=30)
+    search_entry.place(x=150, y=20)
 
-#     def load_dogs(filter_text=""):
-#         for widget in dogs_frame.winfo_children():
-#             widget.destroy()
+    def load_dogs(filter_text=""):
+        for widget in dogs_frame.winfo_children():
+            widget.destroy()
 
-#         conn = sqlite3.connect("dog_adoption_app.db")
-#         c = conn.cursor()
-#         if filter_text:
-#             c.execute("SELECT * FROM dogs WHERE dog_name LIKE ? OR breed LIKE ?", (f'%{filter_text}%', f'%{filter_text}%'))
-#         else:
-#             c.execute("SELECT * FROM dogs")
-#         dogs = c.fetchall()
-#         conn.close()
+        conn = sqlite3.connect("dog_adoption_app.db")
+        c = conn.cursor()
+        if filter_text:
+            c.execute("SELECT * FROM dogs WHERE dog_name LIKE ? OR breed LIKE ?", (f'%{filter_text}%', f'%{filter_text}%'))
+        else:
+            c.execute("SELECT * FROM dogs")
+        dogs = c.fetchall()
+        conn.close()
 
-#         if not dogs:
-#             Label(dogs_frame, text="No dogs found.").pack()
-#             return
+        if not dogs:
+            Label(dogs_frame, text="No dogs found.").pack()
+            return
 
-#         for dog in dogs:
-#             dog_id, dog_name, breed = dog
-#             frame = Frame(dogs_frame, pady=5, padx=5, relief="solid", borderwidth=1)
-#             Label(frame, text=f"Name: {dog_name}").pack(anchor="w")
-#             Label(frame, text=f"Breed: {breed}").pack(anchor="w")
-#             Button(frame, text="Adopt", bg="green", fg="white",
-#                    command=lambda d_id=dog_id, d_name=dog_name: adopt_dog(user_id, d_id, d_name, adoption_win)
-#             ).pack(anchor="e")
-#             frame.pack(fill="x", padx=10, pady=5)
+        for dog in dogs:
+            dog_id, dog_name, breed = dog
+            frame = Frame(dogs_frame, pady=5, padx=5, relief="solid", borderwidth=1)
+            Label(frame, text=f"Name: {dog_name}").pack(anchor="w")
+            Label(frame, text=f"Breed: {breed}").pack(anchor="w")
+            Button(frame, text="Adopt", bg="green", fg="white",
+                   command=lambda d_id=dog_id, d_name=dog_name: adopt_dog(user_id, d_id, d_name, adoption_win)
+            ).pack(anchor="e")
+            frame.pack(fill="x", padx=10, pady=5)
 
-#     def search_dogs():
-#         filter_text = search_entry.get().strip()
-#         load_dogs(filter_text)
+    def search_dogs():
+        filter_text = search_entry.get().strip()
+        load_dogs(filter_text)
 
-#     Button(adoption_win, text="Search", command=search_dogs).place(x=400, y=17)
+    Button(adoption_win, text="Search", command=search_dogs).place(x=400, y=17)
 
-#     dogs_frame = Frame(adoption_win)
-#     dogs_frame.place(x=20, y=60, width=560, height=400)
+    dogs_frame = Frame(adoption_win)
+    dogs_frame.place(x=20, y=60, width=560, height=400)
 
-#     load_dogs()
+    load_dogs()
 
-# def adopt_dog(user_id, dog_id, dog_name, window):
-#     conn = sqlite3.connect("dog_adoption_app.db")
-#     c = conn.cursor()
+def adopt_dog(user_id, dog_id, dog_name, window):
+    conn = sqlite3.connect("dog_adoption_app.db")
+    c = conn.cursor()
 
-#     # Check if this user has already adopted this dog
-#     c.execute("SELECT * FROM adoptions WHERE user_id = ? AND dog_id = ?", (user_id, dog_id))
-#     if c.fetchone():
-#         messagebox.showinfo("Already Adopted", f"You have already adopted {dog_name}.")
-#     else:
-#         c.execute("INSERT INTO adoptions (user_id, dog_id) VALUES (?, ?)", (user_id, dog_id))
-#         conn.commit()
-#         messagebox.showinfo("Success", f"You adopted {dog_name}!")
-#     conn.close()
-#     window.destroy()
+    # Check if this user has already adopted this dog
+    c.execute("SELECT * FROM adoptions WHERE user_id = ? AND dog_id = ?", (user_id, dog_id))
+    if c.fetchone():
+        messagebox.showinfo("Already Adopted", f"You have already adopted {dog_name}.")
+    else:
+        c.execute("INSERT INTO adoptions (user_id, dog_id) VALUES (?, ?)", (user_id, dog_id))
+        conn.commit()
+        messagebox.showinfo("Success", f"You adopted {dog_name}!")
+    conn.close()
+    window.destroy()
 
-# # -------------------- Registration Window --------------------
-# def main_window():
-#     root = Tk()
-#     root.geometry("500x400")
-#     root.title("Dog Adoption App - Register")
+# -------------------- Registration Window --------------------
+def main_window():
+    root = Tk()
+    root.geometry("500x400")
+    root.title("Dog Adoption App - Register")
 
-#     Label(root, text="User Registration", font=("Arial", 16, "bold"), fg="blue").place(x=130, y=30)
+    Label(root, text="User Registration", font=("Arial", 16, "bold"), fg="blue").place(x=130, y=30)
 
-#     Label(root, text="Full Name").place(x=50, y=100)
-#     name_entry = Entry(root, width=35)
-#     name_entry.place(x=180, y=100)
+    Label(root, text="Full Name").place(x=50, y=100)
+    name_entry = Entry(root, width=35)
+    name_entry.place(x=180, y=100)
 
-#     Label(root, text="Contact Number").place(x=50, y=150)
-#     contact_entry = Entry(root, width=35)
-#     contact_entry.place(x=180, y=150)
+    Label(root, text="Contact Number").place(x=50, y=150)
+    contact_entry = Entry(root, width=35)
+    contact_entry.place(x=180, y=150)
 
-#     def register_user():
-#         name = name_entry.get().strip()
-#         contact = contact_entry.get().strip()
+    def register_user():
+        name = name_entry.get().strip()
+        contact = contact_entry.get().strip()
 
-#         if not name or not contact:
-#             messagebox.showerror("Error", "Please fill all fields")
-#             return
+        if not name or not contact:
+            messagebox.showerror("Error", "Please fill all fields")
+            return
 
-#         if not contact.isdigit():
-#             messagebox.showerror("Error", "Contact must be numbers only")
-#             return
+        if not contact.isdigit():
+            messagebox.showerror("Error", "Contact must be numbers only")
+            return
 
-#         conn = sqlite3.connect("dog_adoption_app.db")
-#         c = conn.cursor()
-#         c.execute("INSERT INTO users (name, contact) VALUES (?, ?)", (name, contact))
-#         user_id = c.lastrowid
-#         conn.commit()
-#         conn.close()
+        conn = sqlite3.connect("dog_adoption_app.db")
+        c = conn.cursor()
+        c.execute("INSERT INTO users (name, contact) VALUES (?, ?)", (name, contact))
+        user_id = c.lastrowid
+        conn.commit()
+        conn.close()
 
-#         messagebox.showinfo("Registered", f"Welcome {name}! Choose a dog to adopt.")
-#         root.withdraw()
-#         open_adoption_window(user_id)
+        messagebox.showinfo("Registered", f"Welcome {name}! Choose a dog to adopt.")
+        root.withdraw()
+        open_adoption_window(user_id)
 
-#     Button(root, text="Register", bg="green", fg="white", font=("Arial", 11), command=register_user).place(x=200, y=220)
+    Button(root, text="Register", bg="green", fg="white", font=("Arial", 11), command=register_user).place(x=200, y=220)
 
-#     root.mainloop()
+    root.mainloop()
 
 # # -------------------- Run the App --------------------
 # init_db()
@@ -419,32 +417,9 @@ def open_dog_listings(user_id):
 
     load_dogs()
 
-# -------------------- Registration Window --------------------
-def main_window():
-    root = Tk()
-    root.geometry("500x400")
-    root.title("Dog Adoption App - Register")
-
-    Label(root, text="User Registration", font=("Arial", 16, "bold"), fg="blue").place(x=130, y=30)
-
-    Label(root, text="Full Name").place(x=50, y=100)
-    name_entry = Entry(root, width=35)
-    name_entry.place(x=180, y=100)
-
-    Label(root, text="Contact Number").place(x=50, y=150)
-    contact_entry = Entry(root, width=35)
-    contact_entry.place(x=180, y=150)
-
-    def register_user():
-        name = name_entry.get().strip()
-        contact = contact_entry.get().strip()
-
-        if not name or not contact:
-            messagebox.showerror("Error", "Please fill all fields")
-            return
-
-        if not contact.isdigit():
-            messagebox.showerror("Error", "Contact must be numbers only")
+# # -------------------- Registration Window --------------------
+ def main_window():
+"Contact must be numbers only")
             return
 
         conn = sqlite3.connect("dog_adoption_app.db")
