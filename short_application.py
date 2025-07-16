@@ -7,20 +7,21 @@ from datetime import datetime
 root = Tk()
 root.title("Dog Adoption Application Form")
 root.geometry("330x700")  # Set a reasonable default size
-root.configure(bg="white")
-root.resizable(True, True)
-root.state('zoomed')  # Maximize window
+root.configure(bg="skyblue") # change background color for better visibility
+root.resizable(True, True)  # Disable resizing for better layout
+#root.state('normal') #ensure the window is not maximized
+root.state('zoomed') # Ensure the window is not maximize
 
 # Variables
 name_var = StringVar()
 email_var = StringVar()
-phone_var = StringVar()
+phone_var = int()
 city_var = StringVar()
 state_var = StringVar()
 dog_name_var = StringVar()
 dog_breed_var = StringVar()
 emergency_name_var = StringVar()
-emergency_phone_var = StringVar()
+emergency_phone_var = int()
 agreed_var = BooleanVar()
 
 # Header with professional styling
@@ -31,20 +32,44 @@ Label(header_frame, text="🐕 APPLICATION FORM 🐕",
       font=("Arial", 18, "bold"), fg="#1E2123", bg="white").pack(pady=15)
 
 # Create scrollable main frame
-canvas = Canvas(root, bg="white")
+canvas = Canvas(root, bg="skyblue")
 scrollbar = Scrollbar(root, orient="vertical", command=canvas.yview)
 scrollable_frame = Frame(canvas, bg="white")
 
-scrollable_frame.bind(
-    "<Configure>",
-    lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
-)
+# Function to update scroll region
+def configure_scroll_region(event):
+    canvas.configure(scrollregion=canvas.bbox("all"))
+
+# Function to handle mouse wheel scrolling
+def on_mousewheel(event):
+    canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+scrollable_frame.bind("<Configure>", configure_scroll_region)
 
 canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
 canvas.configure(yscrollcommand=scrollbar.set)
 
+# Bind mouse wheel to canvas
+canvas.bind("<MouseWheel>", on_mousewheel)
+
+# Pack the canvas and scrollbar to make them visible
+canvas.pack(side="left", fill="both", expand=True)
+scrollbar.pack(side="right", fill="y")
+
+# Make canvas focusable so it can receive mouse wheel events
+canvas.focus_set()
+
+# Bind mouse wheel to all widgets for better scrolling experience
+def bind_mousewheel(widget):
+    widget.bind("<MouseWheel>", on_mousewheel)
+    for child in widget.winfo_children():
+        bind_mousewheel(child)
+
+# Apply mouse wheel binding to the root after a short delay
+root.after(100, lambda: bind_mousewheel(root))
+
 # Main frame with better styling
-main_frame = Frame(scrollable_frame, bg="white", relief="solid", bd=1)
+main_frame = Frame(scrollable_frame, bg="skyblue", relief="solid", bd=1)
 main_frame.pack(padx=20, pady=10, fill="both", expand=True)
 
 # Personal Information Section
@@ -188,5 +213,4 @@ Button(button_frame, text="CLEAR FORM", bg="#151414", fg="white",
        font=("Arial", 12), command=lambda: clear_form(), width=20, height=2,
        relief="solid", bd=1).pack(side="left", padx=10)
 
-# run
 root.mainloop()
