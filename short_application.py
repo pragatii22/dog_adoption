@@ -224,14 +224,5 @@ Button(button_frame, text="CLEAR FORM", bg="#151414", fg="white",
        font=("Arial", 12), command=lambda: clear_form(), width=20, height=2,
        relief="solid", bd=1).pack(side="left", padx=10)
 
-# Pack canvas and scrollbar
-canvas.pack(side="left", fill="both", expand=True, padx=(20, 0), pady=10)
-scrollbar.pack(side="right", fill="y", pady=10, padx=(0, 20))
-
-# Bind mousewheel to canvas for scrolling
-def _on_mousewheel(event):
-    canvas.yview_scroll(int(-1*(event.delta/120)), "units")
-canvas.bind_all("<MouseWheel>", _on_mousewheel)
-
 # run
 root.mainloop()
