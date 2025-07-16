@@ -9,19 +9,18 @@ root.title("Dog Adoption Application Form")
 root.geometry("330x700")  # Set a reasonable default size
 root.configure(bg="skyblue") # change background color for better visibility
 root.resizable(True, True)  # Disable resizing for better layout
-#root.state('normal') #ensure the window is not maximized
 root.state('zoomed') # Ensure the window is not maximize
 
 # Variables
 name_var = StringVar()
 email_var = StringVar()
-phone_var = int()
+phone_var = StringVar()  # Changed from int() to StringVar()
 city_var = StringVar()
 state_var = StringVar()
 dog_name_var = StringVar()
 dog_breed_var = StringVar()
 emergency_name_var = StringVar()
-emergency_phone_var = int()
+emergency_phone_var = StringVar()  # Changed from int() to StringVar()
 agreed_var = BooleanVar()
 
 # Header with professional styling
@@ -132,10 +131,10 @@ emergency_frame = LabelFrame(main_frame, text="5. Emergency Contact",
 emergency_frame.pack(fill="x", padx=15, pady=10)
 
 Label(emergency_frame, text="Emergency Contact Name", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="w", padx=10, pady=5)
-Entry(emergency_frame, textvariable=emergency_name_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=1, padx=10, pady=5)
+Entry(emergency_frame, textvariable=emergency_name_var, width=30, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=1, padx=10, pady=5)
 
 Label(emergency_frame, text="Emergency Contact Phone", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=2, sticky="w", padx=10, pady=5)
-Entry(emergency_frame, textvariable=emergency_phone_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=3, padx=10, pady=5)
+Entry(emergency_frame, textvariable=emergency_phone_var, width=30, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=3, padx=10, pady=5)
 
 # Agreement Section
 agreement_frame = LabelFrame(main_frame, text="6. Terms and Conditions", 
@@ -159,7 +158,7 @@ By checking the box below, I agree to:
 
 # Create scrollable text widget for agreement
 agreement_display = Text(agreement_inner_frame, height=8, width=90, font=("Arial", 10), 
-                           wrap="word", bg="#F7F3F3", relief="solid", bd=2)
+                           wrap="word", bg="#F7EBEB", relief="solid", bd=2)
 agreement_display.pack(fill="x", pady=5)
 agreement_display.insert("1.0", agreement_text)
 agreement_display.config(state="disabled")  # Make it read-only
