@@ -3,42 +3,6 @@ from tkinter import messagebox
 import sqlite3
 from datetime import datetime
 
-# Database setup function
-def setup_database():
-    """Initialize the SQLite database and create the applications table if it doesn't exist"""
-    try:
-        conn = sqlite3.connect("dog_adoption.db")
-        cursor = conn.cursor()
-        
-        # Create applications table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS applications (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT NOT NULL,
-                phone TEXT NOT NULL,
-                city TEXT,
-                state TEXT,
-                dog_name TEXT,
-                dog_breed TEXT,
-                experience TEXT,
-                reason TEXT,
-                emergency_name TEXT,
-                emergency_phone TEXT,
-                agreement_status TEXT,
-                submission_date TEXT
-            )
-        """)
-        
-        conn.commit()
-        conn.close()
-        print("Database initialized successfully!")
-        
-    except Exception as e:
-        print(f"Error setting up database: {str(e)}")
-
-# Initialize database
-setup_database()
 
 root = Tk()
 root.title("Dog Adoption Application Form")
