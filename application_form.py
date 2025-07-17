@@ -3,10 +3,13 @@ from tkinter import messagebox
 import sqlite3
 from datetime import datetime
 
+
 root = Tk()
 root.title("Dog Adoption Application Form")
-root.geometry("700x750")  # Increased size to fit all content
-root.configure(bg="skyblue")
+root.geometry("330x700")  
+root.configure(bg="skyblue") 
+root.resizable(True, True)  
+root.state('zoomed') 
 
 # Variables
 name_var = StringVar()
@@ -17,24 +20,62 @@ state_var = StringVar()
 dog_name_var = StringVar()
 dog_breed_var = StringVar()
 emergency_name_var = StringVar()
-emergency_phone_var = StringVar()
+emergency_phone_var = StringVar()  # Changed from int() to StringVar()
 agreed_var = BooleanVar()
 
-# Remove scrollable area - use direct frame
-main_container = Frame(root, bg="skyblue")
-main_container.pack(fill="both", expand=True, padx=0, pady=0)
 
-# Header
-header_frame = Frame(main_container, bg="white", relief="solid", bd=1)  
-header_frame.pack(fill="x", padx=0, pady=0)
-Label(header_frame, text="🐾 Dog Adoption Application Form 🐾", font=("Arial", 15, "bold"),
-        bg="white", fg="#272A2B").pack(pady=10)
+header_frame = Frame(root, bg="white", relief="solid", bd=1)
+header_frame.pack(fill="x", padx=20, pady=(20, 10))
 
-# Personal Information Section
-personal_frame = LabelFrame(main_container, text="1. Personal Information", 
+Label(header_frame, text="🐕 APPLICATION FORM 🐕", 
+      font=("Arial", 18, "bold"), fg="#1E2123", bg="white").pack(pady=15)
+
+# Create scrollable main frame
+canvas = Canvas(root, bg="skyblue")
+scrollbar = Scrollbar(root, orient="vertical", command=canvas.yview)
+scrollable_frame = Frame(canvas, bg="white")
+
+# Function to update scroll region
+def configure_scroll_region(event):
+    canvas.configure(scrollregion=canvas.bbox("all"))
+
+
+def on_mousewheel(event):
+    canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+scrollable_frame.bind("<Configure>", configure_scroll_region)
+
+canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+canvas.configure(yscrollcommand=scrollbar.set)
+
+
+canvas.bind("<MouseWheel>", on_mousewheel)
+
+
+canvas.pack(side="left", fill="both", expand=True)
+scrollbar.pack(side="right", fill="y")
+
+
+canvas.focus_set()
+
+
+def bind_mousewheel(widget):
+    widget.bind("<MouseWheel>", on_mousewheel)
+    for child in widget.winfo_children():
+        bind_mousewheel(child)
+
+
+root.after(100, lambda: bind_mousewheel(root))
+
+
+main_frame = Frame(scrollable_frame, bg="skyblue", relief="solid", bd=1)
+main_frame.pack(padx=20, pady=10, fill="both", expand=True)
+
+
+personal_frame = LabelFrame(main_frame, text="1. Personal Information", 
                            font=("Arial", 12, "bold"), bg="white", fg="#272A2B", 
-                           relief="solid", bd=1, padx=8, pady=5)
-personal_frame.pack(fill="x", padx=0, pady=5)
+                           relief="solid", bd=1, padx=15, pady=10)
+personal_frame.pack(fill="x", padx=15, pady=10)
 
 Label(personal_frame, text="Full Name", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="w", padx=10, pady=5)
 Entry(personal_frame, textvariable=name_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=1, padx=10, pady=5)
@@ -46,10 +87,10 @@ Label(personal_frame, text="Phone Number", font=("Arial", 10, "bold"), bg="white
 Entry(personal_frame, textvariable=phone_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=1, column=1, padx=10, pady=5)
 
 # Address Information Section
-address_frame = LabelFrame(main_container, text="2. Address Information", 
+address_frame = LabelFrame(main_frame, text="2. Address Information", 
                           font=("Arial", 12, "bold"), bg="white", fg="#181A1A", 
                           relief="solid", bd=1, padx=15, pady=10)
-address_frame.pack(fill="x", padx=0, pady=5)
+address_frame.pack(fill="x", padx=15, pady=10)
 
 Label(address_frame, text="City", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="w", padx=10, pady=5)
 Entry(address_frame, textvariable=city_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=1, padx=10, pady=5)
@@ -58,10 +99,10 @@ Label(address_frame, text="State", font=("Arial", 10, "bold"), bg="white").grid(
 Entry(address_frame, textvariable=state_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=3, padx=10, pady=5)
 
 # Dog Information Section
-dog_frame = LabelFrame(main_container, text="3. Dog Information", 
+dog_frame = LabelFrame(main_frame, text="3. Dog Information", 
                       font=("Arial", 12, "bold"), bg="white", fg="#101111", 
                       relief="solid", bd=1, padx=15, pady=10)
-dog_frame.pack(fill="x", padx=0, pady=5)
+dog_frame.pack(fill="x", padx=15, pady=10)
 
 Label(dog_frame, text="Preferred Dog Name", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="w", padx=10, pady=5)
 Entry(dog_frame, textvariable=dog_name_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=1, padx=10, pady=5)
@@ -70,24 +111,24 @@ Label(dog_frame, text="Preferred Breed", font=("Arial", 10, "bold"), bg="white")
 Entry(dog_frame, textvariable=dog_breed_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=3, padx=10, pady=5)
 
 # Experience and Motivation Section
-experience_frame = LabelFrame(main_container, text="4. Experience & Motivation", 
+experience_frame = LabelFrame(main_frame, text="4. Experience & Motivation", 
                              font=("Arial", 12, "bold"), bg="white", fg="#101111", 
-                             relief="solid", bd=1, padx=10, pady=5)
-experience_frame.pack(fill="x", padx=0, pady=5)
+                             relief="solid", bd=1, padx=15, pady=10)
+experience_frame.pack(fill="x", padx=15, pady=10)
 
 Label(experience_frame, text="Previous Pet Experience", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="nw", padx=10, pady=5)
-experience_text = Text(experience_frame, width=30, height=3, font=("Arial", 10), relief="solid", bd=1)
+experience_text = Text(experience_frame, width=45, height=4, font=("Arial", 10), relief="solid", bd=1)
 experience_text.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
 
 Label(experience_frame, text="Why do you want to adopt?", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=2, sticky="nw", padx=10, pady=5)
-reason_text = Text(experience_frame, width=30, height=3, font=("Arial", 10), relief="solid", bd=1)
+reason_text = Text(experience_frame, width=45, height=4, font=("Arial", 10), relief="solid", bd=1)
 reason_text.grid(row=0, column=3, padx=10, pady=5, sticky="ew")
 
 # Emergency Contact Section
-emergency_frame = LabelFrame(main_container, text="5. Emergency Contact", 
+emergency_frame = LabelFrame(main_frame, text="5. Emergency Contact", 
                             font=("Arial", 12, "bold"), bg="white", fg="#1C1E1F", 
-                            relief="solid", bd=1, padx=10, pady=10)
-emergency_frame.pack(fill="x", padx=0, pady=5)
+                            relief="solid", bd=1, padx=15, pady=10)
+emergency_frame.pack(fill="x", padx=15, pady=10)
 
 Label(emergency_frame, text="Emergency Contact Name", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="w", padx=10, pady=5)
 Entry(emergency_frame, textvariable=emergency_name_var, width=30, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=1, padx=10, pady=5)
@@ -96,15 +137,16 @@ Label(emergency_frame, text="Emergency Contact Phone", font=("Arial", 10, "bold"
 Entry(emergency_frame, textvariable=emergency_phone_var, width=30, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=3, padx=10, pady=5)
 
 # Agreement Section
-agreement_frame = LabelFrame(main_container, text="6. Terms and Conditions", 
+agreement_frame = LabelFrame(main_frame, text="6. Terms and Conditions", 
                             font=("Arial", 12, "bold"), bg="white", fg="#0B0C0C", 
-                            relief="solid", bd=1, padx=5, pady=3)  # Reduced padding
-agreement_frame.pack(fill="x", padx=0, pady=5)
+                            relief="solid", bd=1, padx=15, pady=10)
+agreement_frame.pack(fill="x", padx=15, pady=10)
 
+# Create a frame for the agreement text
 agreement_inner_frame = Frame(agreement_frame, bg="white")
-agreement_inner_frame.pack(fill="x", padx=5, pady=5)  # Reduced padding
-
+agreement_inner_frame.pack(fill="x", padx=10, pady=10)
 agreement_text = """ADOPTION AGREEMENT:
+
 By checking the box below, I agree to:
 • Provide proper care, food, water, shelter and veterinary care.
 • Never abandon, abuse or neglect the dog. 
@@ -114,15 +156,17 @@ By checking the box below, I agree to:
 • Follow all local licensing and vaccination requirements.
 • Provide a permanent, loving home for the dog's lifetime."""
 
-agreement_display = Text(agreement_inner_frame, height=4, width=80, font=("Arial", 9),  # Reduced height from 6 to 4, width from 90 to 80, font from 10 to 9
-                           wrap="word", bg="#F7EBEB", relief="solid", bd=1)  # Reduced border from 2 to 1
-agreement_display.pack(fill="x", pady=3)  # Reduced padding from 5 to 3
+# Create scrollable text widget for agreement
+agreement_display = Text(agreement_inner_frame, height=8, width=90, font=("Arial", 10), 
+                           wrap="word", bg="#F7EBEB", relief="solid", bd=2)
+agreement_display.pack(fill="x", pady=5)
 agreement_display.insert("1.0", agreement_text)
-agreement_display.config(state="disabled")
+agreement_display.config(state="disabled")  # Make it read-only
 
+# Agreement checkbox
 Checkbutton(agreement_frame, text="I have read and agree to all terms and conditions above.", 
-           variable=agreed_var, bg="white", font=("Arial", 10, "bold"),  # Reduced font from 11 to 10
-           wraplength=500).pack(anchor="w", padx=5, pady=3)  # Reduced padding from 8,5 to 5,3
+           variable=agreed_var, bg="white", font=("Arial", 11, "bold"), 
+           wraplength=600).pack(anchor="w", padx=10, pady=15)
 
 # Submit function
 def submit():
@@ -132,10 +176,6 @@ def submit():
     
     try:
         conn = sqlite3.connect("dog_adoption.db")
-        conn.execute("""CREATE TABLE IF NOT EXISTS applications (
-            id INTEGER PRIMARY KEY, name TEXT, email TEXT, phone TEXT, city TEXT, state TEXT,
-            dog_name TEXT, dog_breed TEXT, experience TEXT, reason TEXT,
-            emergency_name TEXT, emergency_phone TEXT, agreement TEXT, submission_date TEXT)""")
         conn.execute("""INSERT INTO applications VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (name_var.get(), email_var.get(), phone_var.get(), city_var.get(), 
                      state_var.get(), dog_name_var.get(), dog_breed_var.get(),
@@ -144,8 +184,11 @@ def submit():
                      "Agreed", datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
         conn.commit()
         conn.close()
-        messagebox.showinfo("Success", f"Application submitted successfully!\n\nApplicant: {name_var.get()}")
+        messagebox.showinfo("Success", f"Application submitted successfully!\n\nApplication for: {dog_name_var.get()}\nApplicant: {name_var.get()}")
+        
+        # Clear form after submission
         clear_form()
+        
     except Exception as e:
         messagebox.showerror("Error", f"Failed to submit application: {str(e)}")
 
@@ -158,14 +201,14 @@ def clear_form():
     agreed_var.set(False)
 
 # Submit Button Section
-button_frame = Frame(main_container, bg="skyblue")
-button_frame.pack(fill="x", padx=0, pady=20)
+button_frame = Frame(main_frame, bg="white")
+button_frame.pack(fill="x", padx=15, pady=20)
 
 Button(button_frame, text="SUBMIT APPLICATION", bg="#367AE0", fg="white", 
-       font=("Arial", 10, "bold"), command=submit, width=20, height=1,
+       font=("Arial", 12, "bold"), command=submit, width=25, height=2,
        relief="solid", bd=1).pack(side="left", padx=10)
 Button(button_frame, text="CLEAR FORM", bg="#151414", fg="white", 
-       font=("Arial", 10), command=lambda: clear_form(), width=20, height=1,
+       font=("Arial", 12), command=lambda: clear_form(), width=20, height=2,
        relief="solid", bd=1).pack(side="left", padx=10)
 
 root.mainloop()
