@@ -1,5 +1,6 @@
 from tkinter import *
 from PIL import Image, ImageTk
+import os
 
 root = Tk()
 root.title("Happy Hooves Adoption")
@@ -53,7 +54,12 @@ def open_dog_profile(dog):
     left = Frame(content, bg="white")
     left.pack(side=LEFT, padx=50)
 
-    img = Image.open(dog["img"])
+    img_path = dog["img"]
+    print("Profile: Looking for image at:", os.path.abspath(img_path))
+    if not os.path.exists(img_path):
+        img = Image.new("RGB", (400, 400), color="gray")
+    else:
+        img = Image.open(img_path)
     img = img.resize((400, 400))
     photo = ImageTk.PhotoImage(img)
     dog_photos.append(photo)
@@ -99,7 +105,12 @@ def show_dog_gallery():
         card = Frame(row, bg="white", bd=1, relief=SOLID, padx=10, pady=10)
         card.pack(side=LEFT, padx=40)
 
-        img = Image.open(dog["img"])
+        img_path = dog["img"]
+        print("Gallery: Looking for image at:", os.path.abspath(img_path))
+        if not os.path.exists(img_path):
+            img = Image.new("RGB", (200, 200), color="gray")
+        else:
+            img = Image.open(img_path)
         img = img.resize((200, 200))
         photo = ImageTk.PhotoImage(img)
         dog_photos.append(photo)
@@ -109,7 +120,6 @@ def show_dog_gallery():
         Label(card, text=dog["name"], font=("Arial", 14, "bold"), bg="white").pack(pady=5)
 
 # 🏠 HOME PAGE
-
 
 Button(root, text="Available Dogs", font=("Arial", 16, "bold"),
        bg="black", fg="white", padx=40, pady=15, command=show_dog_gallery).pack()
