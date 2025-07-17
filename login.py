@@ -106,6 +106,13 @@ def open_change_password(username):
 def open_login():
     logged_in_user = {"username": None}  # To store logged-in username in closure
 
+    def toggle_password():
+          if show_password_var.get():
+              entry_pwd.config(show="")
+          else:
+            entry_pwd.config(show="*")
+            
+
     def login_user():
         user = entry_user.get()
         pwd = entry_pwd.get()
@@ -124,15 +131,12 @@ def open_login():
             messagebox.showerror("Login Failed", "Invalid username or password.\nIf new user, please register first.")
             logged_in_user["username"] = None
             btn_update_password.config(state="disabled")
-        def toggle_password():
-            if show_password_var.get():
-              entry_pwd.config(show="")
-            else:
-                 entry_pwd.config(show="*")
-        if show_password_var.get():
-            entry_pwd.config(show="")
-        else:
-            entry_pwd.config(show="*")
+
+        
+        
+            
+        
+        
         def open_update_password():
           user = logged_in_user["username"]
           if not user:
