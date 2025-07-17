@@ -41,6 +41,7 @@ def open_register():
             conn.commit()
             messagebox.showinfo("success", "Registration Successful!")
             reg_win.destroy()
+            root.destroy()
         except sqlite3.IntegrityError:
             messagebox.showerror("Error", "Username already exists!")
 
