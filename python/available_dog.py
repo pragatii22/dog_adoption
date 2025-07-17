@@ -7,38 +7,46 @@ root.title("Happy Hooves Adoption")
 root.geometry("1000x750")
 root.configure(bg="white")
 
-# 🐶 Dog Data (with description)
+# 🔧 Base directory for images
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# 🐶 Dog Data 
 dogs = [
     {
         "name": "Buddy", "breed": "Labrador Retriever", "age": "2 years",
-        "gender": "Male", "color": "Golden", "weight": "10 kg", "img": "dog1.png",
-        "description": "Buddy is a playful and loving Labrador. Great with kids and very loyal.Friendly, intelligent, and loyal. Great with families and kids. Loves swimming and outdoor play. Needs regular exercise. Easy to train and very social. "
+        "gender": "Male", "color": "Golden", "weight": "10 kg",
+        "img": os.path.join(BASE_DIR, "dog1.png"),
+        "description": "Buddy is a playful and loving Labrador. Great with kids and very loyal. Friendly, intelligent, and loyal. Great with families and kids. Loves swimming and outdoor play. Needs regular exercise. Easy to train and very social."
     },
     {
         "name": "Lucy", "breed": "Beagle", "age": "1.5 years",
-        "gender": "Female", "color": "Brown & White", "weight": "12 kg", "img": "dog2.png",
+        "gender": "Female", "color": "Brown & White", "weight": "12 kg",
+        "img": os.path.join(BASE_DIR, "dog2.png"),
         "description": "Lucy is energetic and loves to sniff around. She’s friendly and curious! Small, curious, and energetic. Known for strong sense of smell. Friendly with children and other pets. Needs walks and playtime to stay happy. A bit stubborn in training."
     },
     {
         "name": "Charlie", "breed": "Pomeranian", "age": "3 years",
-        "gender": "Male", "color": "White", "weight": "6 kg", "img": "dog3.png",
+        "gender": "Male", "color": "White", "weight": "6 kg",
+        "img": os.path.join(BASE_DIR, "dog3.png"),
         "description": "Charlie is a fluffy ball of joy. Perfect for cuddles and short walks! Tiny, fluffy, and alert. Big personality in a small body. Very loyal and active indoors. Needs brushing due to thick fur. Can be vocal and protective."
     },
     {
         "name": "Daisy", "breed": "Golden Retriever", "age": "2.5 years",
-        "gender": "Female", "color": "White", "weight": "13 kg", "img": "dog4.png",
+        "gender": "Female", "color": "White", "weight": "13 kg",
+        "img": os.path.join(BASE_DIR, "dog4.png"),
         "description": "Daisy is calm and gentle. She’s great with families and loves affection. Gentle, loyal, and super friendly. Excellent with kids and families. Intelligent and easy to train. Needs regular walks and loves playing fetch. Sheds a lot."
     },
     {
         "name": "Max", "breed": "German Shepherd", "age": "4 years",
-        "gender": "Male", "color": "Black", "weight": "15 kg", "img": "dog5.png",
+        "gender": "Male", "color": "Black", "weight": "15 kg",
+        "img": os.path.join(BASE_DIR, "dog5.png"),
         "description": "Max is protective and intelligent. He’s a brave friend and very obedient. Smart, brave, and hardworking. Often used in police and guard work. Protective of family. Needs training and lots of exercise. Very loyal and alert."
     },
 ]
 
 dog_photos = []
 
-# 🪟 Dog Profile Page - Fullscreen
+# Dog profile page
 def open_dog_profile(dog):
     profile = Toplevel(root)
     profile.title(f"{dog['name']}'s Profile")
@@ -50,23 +58,16 @@ def open_dog_profile(dog):
     content = Frame(profile, bg="white")
     content.pack(pady=10, padx=40, fill=BOTH, expand=True)
 
-    # Left - Big Dog Image
     left = Frame(content, bg="white")
     left.pack(side=LEFT, padx=50)
 
-    img_path = dog["img"]
-    print("Profile: Looking for image at:", os.path.abspath(img_path))
-    if not os.path.exists(img_path):
-        img = Image.new("RGB", (400, 400), color="gray")
-    else:
-        img = Image.open(img_path)
+    img = Image.open(dog["img"])
     img = img.resize((400, 400))
     photo = ImageTk.PhotoImage(img)
     dog_photos.append(photo)
 
     Label(left, image=photo, bg="white").pack()
 
-    # Right - Dog Details
     right = Frame(content, bg="white")
     right.pack(side=LEFT, padx=50, anchor="n")
 
@@ -77,14 +78,12 @@ def open_dog_profile(dog):
     Label(right, text=f"Color: {dog['color']}", font=("Arial", 16), bg="white").pack(anchor="w", pady=2)
     Label(right, text=f"Weight: {dog['weight']}", font=("Arial", 16), bg="white").pack(anchor="w", pady=2)
 
-    # Dog description
     Label(right, text="\nAbout:", font=("Arial", 16, "bold"), bg="white").pack(anchor="w", pady=(10, 0))
     Label(right, text=dog["description"], font=("Arial", 14), wraplength=500, justify=LEFT, bg="white").pack(anchor="w", pady=5)
 
     Button(profile, text="Adopt Me 🐾", font=("Arial", 14, "bold"),
            bg="#4CAF50", fg="white", padx=20, pady=10).pack(pady=30)
 
-# 🖼️ Dog Gallery Page
 def show_dog_gallery():
     gallery = Toplevel(root)
     gallery.title("Available Dogs")
@@ -105,12 +104,7 @@ def show_dog_gallery():
         card = Frame(row, bg="white", bd=1, relief=SOLID, padx=10, pady=10)
         card.pack(side=LEFT, padx=40)
 
-        img_path = dog["img"]
-        print("Gallery: Looking for image at:", os.path.abspath(img_path))
-        if not os.path.exists(img_path):
-            img = Image.new("RGB", (200, 200), color="gray")
-        else:
-            img = Image.open(img_path)
+        img = Image.open(dog["img"])
         img = img.resize((200, 200))
         photo = ImageTk.PhotoImage(img)
         dog_photos.append(photo)
@@ -119,8 +113,7 @@ def show_dog_gallery():
         btn.pack()
         Label(card, text=dog["name"], font=("Arial", 14, "bold"), bg="white").pack(pady=5)
 
-# 🏠 HOME PAGE
-
+# Home Button
 Button(root, text="Available Dogs", font=("Arial", 16, "bold"),
        bg="black", fg="white", padx=40, pady=15, command=show_dog_gallery).pack()
 
