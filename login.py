@@ -116,7 +116,10 @@ def open_login():
         if result:
             messagebox.showinfo("Login", f"Welcome, {user}!")
             logged_in_user["username"] = user
-            btn_update_password.config(state="normal")  #Enable Update Password button
+            btn_update_password.config(state="normal")
+            
+            login_win.destroy()
+            root.destroy()  #Enable Update Password button
         else:
             messagebox.showerror("Login Failed", "Invalid username or password.\nIf new user, please register first.")
             logged_in_user["username"] = None
