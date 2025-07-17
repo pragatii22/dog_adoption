@@ -106,6 +106,13 @@ def open_change_password(username):
 def open_login():
     logged_in_user = {"username": None}  # To store logged-in username in closure
 
+    def toggle_password():
+          if show_password_var.get():
+              entry_pwd.config(show="")
+          else:
+            entry_pwd.config(show="*")
+            
+
     def login_user():
         user = entry_user.get()
         pwd = entry_pwd.get()
@@ -125,29 +132,37 @@ def open_login():
             logged_in_user["username"] = None
             btn_update_password.config(state="disabled")
 
-    def open_update_password():
-        user = logged_in_user["username"]
-        if not user:
+        
+        
+            
+        
+        
+        def open_update_password():
+          user = logged_in_user["username"]
+          if not user:
             messagebox.showwarning("Not Logged In", "Please login first to update your password.")
             return
             open_change_password(user)
+        login_win = tk.Toplevel(root)
+        login_win.title("Login")
+        login_win.geometry("300x250")
 
-    login_win = tk.Toplevel(root)
-    login_win.title("Login")
-    login_win.geometry("300x250")
+        tk.Label(login_win, text="Username").pack()
+        entry_user = tk.Entry(login_win)
+        entry_user.pack()
 
-    tk.Label(login_win, text="Username").pack()
-    entry_user = tk.Entry(login_win)
-    entry_user.pack()
+        tk.Label(login_win, text="Password").pack()
+        entry_pwd = tk.Entry(login_win, show="*")
+        entry_pwd.pack()
 
-    tk.Label(login_win, text="Password").pack()
-    entry_pwd = tk.Entry(login_win, show="*")
-    entry_pwd.pack()
+        show_password_var = tk.BooleanVar()
+        show_password_check = tk.Checkbutton(login_win, text="Show Password", variable=show_password_var, command=toggle_password)
+        show_password_check.pack()
 
-    tk.Button(login_win, text="Login", command=login_user).pack(pady=10)
+        tk.Button(login_win, text="Login", command=login_user).pack(pady=10)
 
-    btn_update_password = tk.Button(login_win, text="Update Password", command=open_update_password, state="disabled")
-    btn_update_password.pack()
+        btn_update_password = tk.Button(login_win, text="Update Password", command=open_update_password, state="disabled")
+        btn_update_password.pack()
 
 # Main window with side-by-side Login and Register buttons at top center
 
