@@ -11,27 +11,27 @@ dogs = [
     {
         "name": "Buddy", "breed": "Labrador Retriever", "age": "2 years",
         "gender": "Male", "color": "Golden", "weight": "10 kg", "img": "dog1.png",
-        "description": "Buddy is a playful and loving Labrador. Great with kids and very loyal."
+        "description": "Buddy is a playful and loving Labrador. Great with kids and very loyal.Friendly, intelligent, and loyal. Great with families and kids. Loves swimming and outdoor play. Needs regular exercise. Easy to train and very social. "
     },
     {
         "name": "Lucy", "breed": "Beagle", "age": "1.5 years",
         "gender": "Female", "color": "Brown & White", "weight": "12 kg", "img": "dog2.png",
-        "description": "Lucy is energetic and loves to sniff around. She’s friendly and curious!"
+        "description": "Lucy is energetic and loves to sniff around. She’s friendly and curious! Small, curious, and energetic. Known for strong sense of smell. Friendly with children and other pets. Needs walks and playtime to stay happy. A bit stubborn in training."
     },
     {
         "name": "Charlie", "breed": "Pomeranian", "age": "3 years",
         "gender": "Male", "color": "White", "weight": "6 kg", "img": "dog3.png",
-        "description": "Charlie is a fluffy ball of joy. Perfect for cuddles and short walks!"
+        "description": "Charlie is a fluffy ball of joy. Perfect for cuddles and short walks! Tiny, fluffy, and alert. Big personality in a small body. Very loyal and active indoors. Needs brushing due to thick fur. Can be vocal and protective."
     },
     {
         "name": "Daisy", "breed": "Golden Retriever", "age": "2.5 years",
         "gender": "Female", "color": "White", "weight": "13 kg", "img": "dog4.png",
-        "description": "Daisy is calm and gentle. She’s great with families and loves affection."
+        "description": "Daisy is calm and gentle. She’s great with families and loves affection. Gentle, loyal, and super friendly. Excellent with kids and families. Intelligent and easy to train. Needs regular walks and loves playing fetch. Sheds a lot."
     },
     {
         "name": "Max", "breed": "German Shepherd", "age": "4 years",
         "gender": "Male", "color": "Black", "weight": "15 kg", "img": "dog5.png",
-        "description": "Max is protective and intelligent. He’s a brave friend and very obedient."
+        "description": "Max is protective and intelligent. He’s a brave friend and very obedient. Smart, brave, and hardworking. Often used in police and guard work. Protective of family. Needs training and lots of exercise. Very loyal and alert."
     },
 ]
 
