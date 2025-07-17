@@ -47,27 +47,27 @@ def open_register():
 
     lbl_username = tk.Label(reg_win, text="username")
     lbl_username.pack()
-    entry_username = tk.Entry(reg_win, width=35, font=("Arial", 11))
+    entry_username = tk.Entry(reg_win, width=35, font=("Arial", 6))
     entry_username.pack()
 
     lbl_password = tk.Label(reg_win, text="Password")
     lbl_password.pack()
-    entry_password = tk.Entry(reg_win, width=35, font=("Arial", 11), show="*")  # added show="*"
+    entry_password = tk.Entry(reg_win, width=35, font=("Arial", 6), show="*")  # added show="*"
     entry_password.pack()
 
     lbl_email = tk.Label(reg_win, text="Email")
     lbl_email.pack()
-    entry_email = tk.Entry(reg_win, width=35, font=("Arial", 11))
+    entry_email = tk.Entry(reg_win, width=35, font=("Arial", 6))
     entry_email.pack()
 
     lbl_address = tk.Label(reg_win, text="Address")
     lbl_address.pack()
-    entry_address = tk.Entry(reg_win, width=35, font=("Arial", 11))
+    entry_address = tk.Entry(reg_win, width=35, font=("Arial", 6))
     entry_address.pack()
 
     lbl_phone_no = tk.Label(reg_win, text="phone_no")
     lbl_phone_no.pack()
-    entry_phone_no = tk.Entry(reg_win, width=35, font=("Arial", 11))
+    entry_phone_no = tk.Entry(reg_win, width=35, font=("Arial", 6))
     entry_phone_no.pack()
 
     btn_register = tk.Button(reg_win, text="register", command=register_user)
