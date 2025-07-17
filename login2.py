@@ -5,6 +5,9 @@ import sqlite3
 root = tk.Tk()
 root.geometry('500x500')
 root.resizable(1, 1)
+root.title("login/Register")
+root.config(bg="#f0f4f8")
+
 
 # database 
 conn = sqlite3.connect("users.db")
@@ -44,34 +47,38 @@ def open_register():
     reg_win = tk.Toplevel(root)
     reg_win.title("Register")
     reg_win.geometry("300x300")
+    reg_win.config(bg="#e1f5fe")
 
-    lbl_username = tk.Label(reg_win, text="username")
-    lbl_username.pack()
+    lbl_font=("Arial",10,"bold")
+    entry_font=("Arial",10)
+
+    lbl_username = tk.Label(reg_win, text="username",bg="#e1f5fe",font=lbl_font)
+    lbl_username.pack(pady=(15,2))
     entry_username = tk.Entry(reg_win, width=35, font=("Arial", 6))
     entry_username.pack()
 
-    lbl_password = tk.Label(reg_win, text="Password")
-    lbl_password.pack()
+    lbl_password = tk.Label(reg_win, text="Password",bg="#e1f5fe",font=lbl_font)
+    lbl_password.pack(pady=(10,2))
     entry_password = tk.Entry(reg_win, width=35, font=("Arial", 6), show="*")  # added show="*"
     entry_password.pack()
 
-    lbl_email = tk.Label(reg_win, text="Email")
-    lbl_email.pack()
+    lbl_email = tk.Label(reg_win, text="Email",bg="#e1f5fe",font=lbl_font)
+    lbl_email.pack(pady=(10,2))
     entry_email = tk.Entry(reg_win, width=35, font=("Arial", 6))
     entry_email.pack()
 
-    lbl_address = tk.Label(reg_win, text="Address")
-    lbl_address.pack()
+    lbl_address = tk.Label(reg_win, text="Address",bg="#e1f5fe",font=lbl_font)
+    lbl_address.pack(pady=(10,2))
     entry_address = tk.Entry(reg_win, width=35, font=("Arial", 6))
     entry_address.pack()
 
-    lbl_phone_no = tk.Label(reg_win, text="phone_no")
-    lbl_phone_no.pack()
+    lbl_phone_no = tk.Label(reg_win, text="phone_no",bg="#e1f5fe",font=lbl_font)
+    lbl_phone_no.pack(pady=(10,2))
     entry_phone_no = tk.Entry(reg_win, width=35, font=("Arial", 6))
     entry_phone_no.pack()
 
-    btn_register = tk.Button(reg_win, text="register", command=register_user)
-    btn_register.pack(pady=10)
+    btn_register = tk.Button(reg_win, text="register",bg="#0277bd",fg="white",font=("Arial",11), command=register_user)
+    btn_register.pack(pady=20,ipadx=10,ipady=5)
 
 
 # password change window 
@@ -79,14 +86,16 @@ def open_change_password(username):
     change_password_win = tk.Toplevel(root)
     change_password_win.title("Change Password")
     change_password_win.geometry("300x180")
+    change_password_win.config(bg="#fff3e0")
 
-    tk.Label(change_password_win, text=f"Change Password for {username}").pack(pady=5)
 
-    tk.Label(change_password_win, text="Old Password").pack()
+    tk.Label(change_password_win, text=f"Change Password for {username}",bg="#fff3e0",font=("Arial",11,"bold")).pack(pady=5)
+
+    tk.Label(change_password_win, text="Old Password",bg="#fff3e0").pack()
     entry_old_password = tk.Entry(change_password_win, show="*")
     entry_old_password.pack()
 
-    tk.Label(change_password_win, text="New Password").pack()
+    tk.Label(change_password_win, text="New Password",bg="#fff3e0").pack()
     entry_new_password = tk.Entry(change_password_win, show="*")
     entry_new_password.pack()
 
@@ -106,7 +115,7 @@ def open_change_password(username):
         else:
             messagebox.showerror("Error", "Old password incorrect")
 
-    tk.Button(change_password_win, text="Change Password", command=change_password).pack(pady=10)
+    tk.Button(change_password_win, text="Change Password",bg="#ef6c00" ,fg="white",font=("Arial",11,"bold"),command=change_password).pack(pady=10)
 
 
 # Login window with Update Password button enabled only after login
@@ -116,13 +125,14 @@ def open_login():
     login_win = tk.Toplevel(root)
     login_win.title("Login")
     login_win.geometry("300x250")
+    login_win.config(bg="#e8f5e9")
 
-    tk.Label(login_win, text="Username").pack()
-    entry_user = tk.Entry(login_win)
+    tk.Label(login_win, text="Username",bg="#e8f5e9",font=("Arial",10,"bold")).pack(pady=(15,2))
+    entry_user = tk.Entry(login_win,font=("Arial",10))
     entry_user.pack()
 
-    tk.Label(login_win, text="Password").pack()
-    entry_pwd = tk.Entry(login_win, show="*")
+    tk.Label(login_win, text="Password",bg="#e8f5e9",font=("Arial",10,"bold")).pack(pady=(10,2))
+    entry_pwd = tk.Entry(login_win, show="*",font=("Arial",10))
     entry_pwd.pack()
 
     show_password_var = tk.BooleanVar()
@@ -133,8 +143,8 @@ def open_login():
         else:
             entry_pwd.config(show="*")
 
-    show_password_check = tk.Checkbutton(login_win, text="Show Password", variable=show_password_var, command=toggle_password)
-    show_password_check.pack()
+    show_password_check = tk.Checkbutton(login_win, text="Show Password", variable=show_password_var, command=toggle_password,bg="#e8f5e9")
+    show_password_check.pack(pady=5)
 
     def login_user():
         user = entry_user.get()
@@ -161,10 +171,10 @@ def open_login():
             return
         open_change_password(user)
 
-    btn_update_password = tk.Button(login_win, text="Update Password", command=open_update_password, state="disabled")
-    btn_update_password.pack()
+    btn_update_password = tk.Button(login_win, text="Update Password",bg="#43a047",fg="white",font=("Arial",11,"bold"),command=open_update_password, state="disabled")
+    btn_update_password.pack(pady=(10,5),ipadx=10,ipady=5)
 
-    tk.Button(login_win, text="Login", command=login_user).pack(pady=10)
+    tk.Button(login_win, text="Login",bg="#1e88e5",fg="white",font=("Arial",11,"bold"), command=login_user).pack(pady=10,ipadx=10,ipady=5)
 
 
 # Main window with side-by-side Login and Register buttons at top center
@@ -176,10 +186,10 @@ root.geometry("350x150")
 frame = tk.Frame(root)
 frame.pack(side="top", pady=20)
 
-btn_login = tk.Button(frame, text="Login", width=12, command=open_login)
+btn_login = tk.Button(frame, text="Login", width=12,bg="#1e88e5",fg="white",font=("Arial",11,"bold"), command=open_login)
 btn_login.pack(side="left", padx=10)
 
-btn_register = tk.Button(frame, text="Register", width=12, command=open_register)
+btn_register = tk.Button(frame, text="Register",bg="#43a047",fg="white",font=("Arial",11,"bold"), width=12, command=open_register)
 btn_register.pack(side="left", padx=10)
 
 root.mainloop()
