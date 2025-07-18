@@ -5,7 +5,7 @@ from datetime import datetime
 
 root = Tk()
 root.title("Dog Adoption Application Form")
-root.geometry("700x700")  # Increased size to fit all content
+root.geometry("900x700")  # Increased size to fit all content
 root.configure(bg="skyblue")
 
 # Variables
@@ -134,15 +134,30 @@ def submit():
     try:
         conn = sqlite3.connect("dog_adoption.db")
         conn.execute("""CREATE TABLE IF NOT EXISTS applications (
-            id INTEGER PRIMARY KEY, name TEXT, email TEXT, phone TEXT, city TEXT, state TEXT,
-            dog_name TEXT, dog_breed TEXT, experience TEXT, reason TEXT,
-            emergency_name TEXT, emergency_phone TEXT, agreement TEXT, submission_date TEXT)""")
-        conn.execute("""INSERT INTO applications VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                    (name_var.get(), email_var.get(), phone_var.get(), city_var.get(), 
-                     state_var.get(), dog_name_var.get(), dog_breed_var.get(),
-                     experience_text.get("1.0", END).strip(), reason_text.get("1.0", END).strip(),
-                     emergency_name_var.get(), emergency_phone_var.get(), 
-                     "Agreed", datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+            id INTEGER PRIMARY KEY, 
+            name TEXT, 
+            email TEXT, 
+            phone TEXT, 
+            city TEXT, 
+            state TEXT,
+            dog_name TEXT, 
+            dog_breed TEXT, 
+            experience TEXT, 
+            reason TEXT,
+            agreement TEXT, 
+            submission_date TEXT)""")
+        conn.execute("""INSERT INTO applications VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?)""",
+                    (name_var.get(), 
+                     email_var.get(), 
+                     phone_var.get(), 
+                     city_var.get(), 
+                     state_var.get(), 
+                     dog_name_var.get(), 
+                     dog_breed_var.get(),
+                     experience_text.get("1.0", END).strip(), 
+                     reason_text.get("1.0", END).strip(),
+                     "Agreed", 
+                     datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
         conn.commit()
         conn.close()
         messagebox.showinfo("Success", f"Application submitted successfully!\n\nApplicant: {name_var.get()}")
@@ -152,48 +167,77 @@ def submit():
 
 def clear_form():
     for var in [name_var, email_var, phone_var, city_var, state_var, 
-               dog_name_var, dog_breed_var, emergency_name_var, emergency_phone_var]:
+               dog_name_var, dog_breed_var]:
         var.set("")
     experience_text.delete("1.0", END)
     reason_text.delete("1.0", END)
     agreed_var.set(False)
 
-# payment window
+# Simple payment window with database
 def payments():
     payment_window = Toplevel(root)
     payment_window.title("Payment Details")
-    payment_window.geometry("300x400")
-    payment_window.configure(bg="skyblue")
-    Label(payment_window, text="Payment Details", font=("Arial", 15, "bold"), bg="skyblue").pack(pady=10)
+    payment_window.geometry("350x350")
+    payment_window.configure(bg="white")
+    
+    Label(payment_window, text="💳 Payment Details", font=("Arial", 15, "bold"), bg="white").pack(pady=15)
 
-    # name
-    Label(payment_window, text="Full Name", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=60)
-    name_entry = Entry(payment_window, width=50, font=("Arial", 12), relief="solid", bd=1)
-    name_entry.pack(pady=10, padx=60)
+    # Name
+    Label(payment_window, text="Full Name", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
+    name_entry = Entry(payment_window, width=30, font=("Arial", 11), relief="solid", bd=1)
+    name_entry.pack(pady=5, padx=20)
 
-    # adress
-    Label(payment_window, text="Address", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=60)
-    address_entry = Entry(payment_window, width=50, font=("Arial", 12), relief="solid", bd=1)
-    address_entry.pack(pady=10, padx=60)
+    # Address
+    Label(payment_window, text="Address", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
+    address_entry = Entry(payment_window, width=30, font=("Arial", 11), relief="solid", bd=1)
+    address_entry.pack(pady=5, padx=20)
 
-    # phone number
-    Label(payment_window, text="Phone Number", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=60)
-    phone_entry = Entry(payment_window, width=50, font=("Arial", 12), relief="solid", bd=1)
-    phone_entry.pack(pady=10, padx=60)
+    # Phone
+    Label(payment_window, text="Phone Number", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
+    phone_entry = Entry(payment_window, width=30, font=("Arial", 11), relief="solid", bd=1)
+    phone_entry.pack(pady=5, padx=20)
 
-    # payment method
-    Label(payment_window, text="Payment Method", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=60)
+    # Payment Method
+    Label(payment_window, text="Payment Method", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
     method_var = StringVar(value="eSewa")
-    OptionMenu(payment_window, method_var, "eSewa", "Khalti", "Bank Transfer", "PayPal").pack(pady=10, padx=60)
+    OptionMenu(payment_window, method_var, "eSewa", "Khalti", "Bank Transfer").pack(pady=5, padx=20)
 
-    # confirm button
+    # Amount
+    Label(payment_window, text="Amount (NPR)", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
+    amount_entry = Entry(payment_window, width=30, font=("Arial", 11), relief="solid", bd=1)
+    amount_entry.pack(pady=5, padx=20)
+    amount_entry.insert(0, "500")
+
+    # Confirm Payment
     def confirm_payment():
-        if not all([name_entry.get(), address_entry.get(), phone_entry.get()]):
+        if not all([name_entry.get(), address_entry.get(), phone_entry.get(), amount_entry.get()]):
             messagebox.showerror("Error", "Please fill all fields")
             return
-        messagebox.showinfo("Success", "Payment details submitted successfully!")
-        payment_window.destroy()   
-    Button(payment_window, text="Confirm Payment", bg="#BFC3CA", fg="white", 
+        
+        # Create simple payment table and insert data
+        conn = sqlite3.connect("dog_adoption.db")
+        conn.execute("""CREATE TABLE IF NOT EXISTS payments (
+            id INTEGER PRIMARY KEY, 
+            name TEXT, 
+            address TEXT, 
+            phone TEXT, 
+            method TEXT, 
+            amount TEXT, 
+            date TEXT)""")
+        conn.execute("INSERT INTO payments VALUES (NULL,?,?,?,?,?,?)",
+                    (name_entry.get(), 
+                     address_entry.get(), 
+                     phone_entry.get(), 
+                     method_var.get(), 
+                     amount_entry.get(), 
+                     datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+        conn.commit()
+        conn.close()
+        
+        messagebox.showinfo("Success", f"Payment of NPR {amount_entry.get()} processed successfully!")
+        payment_window.destroy()
+    
+    Button(payment_window, text="Confirm Payment", bg="#24272B", fg="white", 
            font=("Arial", 12, "bold"), command=confirm_payment).pack(pady=20)
 
 # Submit Button Section
