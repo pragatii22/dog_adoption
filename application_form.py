@@ -176,6 +176,11 @@ def payments():
     address_entry = Entry(payment_window, width=50, font=("Arial", 12), relief="solid", bd=1)
     address_entry.pack(pady=10, padx=60)
 
+    # phone number
+    Label(payment_window, text="Phone Number", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=60)
+    phone_entry = Entry(payment_window, width=50, font=("Arial", 12), relief="solid", bd=1)
+    phone_entry.pack(pady=10, padx=60)
+
     
 
 
