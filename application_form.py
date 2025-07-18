@@ -5,7 +5,7 @@ from datetime import datetime
 
 root = Tk()
 root.title("Dog Adoption Application Form")
-root.geometry("700x700")  # Increased size to fit all content
+root.geometry("870x700")  # Increased size to fit all content
 root.configure(bg="skyblue")
 
 # Variables
@@ -177,7 +177,7 @@ def clear_form():
 def payments():
     payment_window = Toplevel(root)
     payment_window.title("Payment Details")
-    payment_window.geometry("350x300")  # Reduced height since removing amount field
+    payment_window.maxsize(0, 0)  # Reduced height since removing amount field
     payment_window.configure(bg="white")
     
     Label(payment_window, text="💳 Payment Details", font=("Arial", 15, "bold"), bg="white").pack(pady=15)
@@ -199,8 +199,8 @@ def payments():
 
     # Payment Method
     Label(payment_window, text="Payment Method", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
-    method_var = StringVar(value="eSewa")
-    OptionMenu(payment_window, method_var, "eSewa", "Khalti", "Bank Transfer").pack(pady=5, padx=20)
+    method_var = StringVar(value="cash delivery")
+    OptionMenu(payment_window, method_var, "cash delivery").pack(pady=5, padx=20)
 
     # Confirm Payment
     def confirm_payment():
