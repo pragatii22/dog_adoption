@@ -5,7 +5,7 @@ from datetime import datetime
 
 root = Tk()
 root.title("Dog Adoption Application Form")
-root.geometry("700x750")  # Increased size to fit all content
+root.geometry("700x700")  # Increased size to fit all content
 root.configure(bg="skyblue")
 
 # Variables
@@ -19,6 +19,18 @@ dog_breed_var = StringVar()
 emergency_name_var = StringVar()
 emergency_phone_var = StringVar()
 agreed_var = BooleanVar()
+
+# create database connection
+conn = sqlite3.connect("dog_adoption.db")
+c = conn.cursor()
+c.execute(
+    """CREATE TABLE IF NOT EXISTS applications (
+        id INTEGER PRIMARY KEY, name TEXT, email TEXT, phone TEXT, city TEXT, state TEXT,
+        dog_name TEXT, dog_breed TEXT, experience TEXT, reason TEXT,
+        agreement TEXT, submission_date TEXT)"""
+)
+conn.commit()
+conn.close()
 
 # Remove scrollable area - use direct frame
 main_container = Frame(root, bg="skyblue")
@@ -63,10 +75,10 @@ dog_frame = LabelFrame(main_container, text="3. Dog Information",
                       relief="solid", bd=1, padx=15, pady=10)
 dog_frame.pack(fill="x", padx=0, pady=5)
 
-Label(dog_frame, text="Preferred Dog Name", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="w", padx=10, pady=5)
+Label(dog_frame, text="Dog Name", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="w", padx=10, pady=5)
 Entry(dog_frame, textvariable=dog_name_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=1, padx=10, pady=5)
 
-Label(dog_frame, text="Preferred Breed", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=2, sticky="w", padx=10, pady=5)
+Label(dog_frame, text="Dog Breed", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=2, sticky="w", padx=10, pady=5)
 Entry(dog_frame, textvariable=dog_breed_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=3, padx=10, pady=5)
 
 # Experience and Motivation Section
@@ -83,20 +95,9 @@ Label(experience_frame, text="Why do you want to adopt?", font=("Arial", 10, "bo
 reason_text = Text(experience_frame, width=30, height=3, font=("Arial", 10), relief="solid", bd=1)
 reason_text.grid(row=0, column=3, padx=10, pady=5, sticky="ew")
 
-# Emergency Contact Section
-emergency_frame = LabelFrame(main_container, text="5. Emergency Contact", 
-                            font=("Arial", 12, "bold"), bg="white", fg="#1C1E1F", 
-                            relief="solid", bd=1, padx=10, pady=10)
-emergency_frame.pack(fill="x", padx=0, pady=5)
-
-Label(emergency_frame, text="Emergency Contact Name", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="w", padx=10, pady=5)
-Entry(emergency_frame, textvariable=emergency_name_var, width=30, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=1, padx=10, pady=5)
-
-Label(emergency_frame, text="Emergency Contact Phone", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=2, sticky="w", padx=10, pady=5)
-Entry(emergency_frame, textvariable=emergency_phone_var, width=30, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=3, padx=10, pady=5)
-
+# remove the  emergency contact section
 # Agreement Section
-agreement_frame = LabelFrame(main_container, text="6. Terms and Conditions", 
+agreement_frame = LabelFrame(main_container, text="5. Terms and Conditions", 
                             font=("Arial", 12, "bold"), bg="white", fg="#0B0C0C", 
                             relief="solid", bd=1, padx=5, pady=3)  # Reduced padding
 agreement_frame.pack(fill="x", padx=0, pady=5)
