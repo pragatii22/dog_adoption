@@ -5,7 +5,7 @@ from datetime import datetime
 
 root = Tk()
 root.title("Dog Adoption Application Form")
-root.geometry("900x700")  # Increased size to fit all content
+root.geometry("700x700")  # Increased size to fit all content
 root.configure(bg="skyblue")
 
 # Variables
@@ -177,7 +177,7 @@ def clear_form():
 def payments():
     payment_window = Toplevel(root)
     payment_window.title("Payment Details")
-    payment_window.geometry("350x350")
+    payment_window.geometry("350x300")  # Reduced height since removing amount field
     payment_window.configure(bg="white")
     
     Label(payment_window, text="💳 Payment Details", font=("Arial", 15, "bold"), bg="white").pack(pady=15)
@@ -202,19 +202,13 @@ def payments():
     method_var = StringVar(value="eSewa")
     OptionMenu(payment_window, method_var, "eSewa", "Khalti", "Bank Transfer").pack(pady=5, padx=20)
 
-    # Amount
-    Label(payment_window, text="Amount (NPR)", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
-    amount_entry = Entry(payment_window, width=30, font=("Arial", 11), relief="solid", bd=1)
-    amount_entry.pack(pady=5, padx=20)
-    amount_entry.insert(0, "500")
-
     # Confirm Payment
     def confirm_payment():
-        if not all([name_entry.get(), address_entry.get(), phone_entry.get(), amount_entry.get()]):
+        if not all([name_entry.get(), address_entry.get(), phone_entry.get()]):
             messagebox.showerror("Error", "Please fill all fields")
             return
         
-        # Create simple payment table and insert data
+        # Create simple payment table and insert data (without amount)
         conn = sqlite3.connect("dog_adoption.db")
         conn.execute("""CREATE TABLE IF NOT EXISTS payments (
             id INTEGER PRIMARY KEY, 
@@ -222,19 +216,17 @@ def payments():
             address TEXT, 
             phone TEXT, 
             method TEXT, 
-            amount TEXT, 
             date TEXT)""")
-        conn.execute("INSERT INTO payments VALUES (NULL,?,?,?,?,?,?)",
+        conn.execute("INSERT INTO payments VALUES (NULL,?,?,?,?,?)",
                     (name_entry.get(), 
                      address_entry.get(), 
                      phone_entry.get(), 
                      method_var.get(), 
-                     amount_entry.get(), 
                      datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
         conn.commit()
         conn.close()
         
-        messagebox.showinfo("Success", f"Payment of NPR {amount_entry.get()} processed successfully!")
+        messagebox.showinfo("Success", f"Payment processed successfully!\nMethod: {method_var.get()}")
         payment_window.destroy()
     
     Button(payment_window, text="Confirm Payment", bg="#24272B", fg="white", 
