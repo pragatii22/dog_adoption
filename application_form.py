@@ -162,7 +162,7 @@ def clear_form():
 def payments():
     payment_window = Toplevel(root)
     payment_window.title("Payment Details")
-    payment_window.geometry("400x300")
+    payment_window.geometry("300x400")
     payment_window.configure(bg="skyblue")
     Label(payment_window, text="Payment Details", font=("Arial", 15, "bold"), bg="skyblue").pack(pady=10)
 
@@ -186,7 +186,15 @@ def payments():
     method_var = StringVar(value="eSewa")
     OptionMenu(payment_window, method_var, "eSewa", "Khalti", "Bank Transfer", "PayPal").pack(pady=10, padx=60)
 
-
+    # confirm button
+    def confirm_payment():
+        if not all([name_entry.get(), address_entry.get(), phone_entry.get()]):
+            messagebox.showerror("Error", "Please fill all fields")
+            return
+        messagebox.showinfo("Success", "Payment details submitted successfully!")
+        payment_window.destroy()   
+    Button(payment_window, text="Confirm Payment", bg="#BFC3CA", fg="white", 
+           font=("Arial", 12, "bold"), command=confirm_payment).pack(pady=20)
 
 # Submit Button Section
 button_frame = Frame(main_container, bg="skyblue")
