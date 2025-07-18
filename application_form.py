@@ -158,6 +158,13 @@ def clear_form():
     reason_text.delete("1.0", END)
     agreed_var.set(False)
 
+# payment window
+def payments():
+    payment_window = Toplevel(root)
+    payment_window.title("Payment Details")
+    payment_window.geometry("400x300")
+    payment_window.configure(bg="skyblue")
+    Label(payment_window, text="Payment Details", font=("Arial", 15, "bold"), bg="skyblue").pack(pady=10)
 # Submit Button Section
 button_frame = Frame(main_container, bg="skyblue")
 button_frame.pack(fill="x", padx=0, pady=20)
