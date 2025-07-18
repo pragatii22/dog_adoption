@@ -181,7 +181,11 @@ def payments():
     phone_entry = Entry(payment_window, width=50, font=("Arial", 12), relief="solid", bd=1)
     phone_entry.pack(pady=10, padx=60)
 
-    
+    # payment method
+    Label(payment_window, text="Payment Method", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=60)
+    method_var = StringVar(value="eSewa")
+    OptionMenu(payment_window, method_var, "eSewa", "Khalti", "Bank Transfer", "PayPal").pack(pady=10, padx=60)
+
 
 
 # Submit Button Section
@@ -194,6 +198,8 @@ Button(button_frame, text="SUBMIT APPLICATION", bg="#367AE0", fg="white",
 Button(button_frame, text="CLEAR FORM", bg="#151414", fg="white", 
        font=("Arial", 10), command=lambda: clear_form(), width=20, height=1,
        relief="solid", bd=1).pack(side="left", padx=10)
-
+Button(button_frame, text="PAYMENT", bg="#71B321", fg="white", 
+       font=("Arial", 10, "bold"), command=payments, width=20, height=1,
+       relief="solid", bd=1).pack(side="left", padx=10)
 root.mainloop()
 
