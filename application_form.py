@@ -165,6 +165,15 @@ def payments():
     payment_window.geometry("400x300")
     payment_window.configure(bg="skyblue")
     Label(payment_window, text="Payment Details", font=("Arial", 15, "bold"), bg="skyblue").pack(pady=10)
+
+    # name
+    Label(payment_window, text="Full Name", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=60)
+    name_entry = Entry(payment_window, width=50, font=("Arial", 12), relief="solid", bd=1)
+    name_entry.pack(pady=10, padx=60)
+
+    
+
+
 # Submit Button Section
 button_frame = Frame(main_container, bg="skyblue")
 button_frame.pack(fill="x", padx=0, pady=20)
