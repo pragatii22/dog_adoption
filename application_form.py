@@ -4,7 +4,7 @@ import sqlite3
 from datetime import datetime
 
 root = Tk()
-root.title("Dog Adoption Application Form")
+root.title("📝 Dog Adoption Application Form")
 root.geometry("870x700")
 root.configure(bg="#E8F4FD")  # Light blue background instead of skyblue
 
@@ -118,7 +118,7 @@ agreement_display.pack(fill="x", pady=3)  # Reduced padding from 5 to 3
 agreement_display.insert("1.0", agreement_text)
 agreement_display.config(state="disabled")
 
-Checkbutton(agreement_frame, text="I have read and agree to all terms and conditions above.", 
+Checkbutton(agreement_frame, text=" I have read and agree to all terms and conditions above. ૮₍ ˶ᵔ ᵕ ᵔ˶ ₎ა", 
            variable=agreed_var, bg="#E8F4FD", font=("Arial", 10, "bold"),  # Changed bg
            wraplength=500).pack(anchor="w", padx=5, pady=3)  # Reduced padding from 8,5 to 5,3
 
@@ -175,29 +175,29 @@ def payments():
     payment_window = Toplevel(root)
     payment_window.title("Payment Details")
     payment_window.maxsize(0, 0)  # Reduced height since removing amount field
-    payment_window.configure(bg="white")
+    payment_window.configure(bg="lightyellow")
     
-    Label(payment_window, text="💳 Payment", font=("Arial", 15, "bold"), bg="white").pack(pady=15)
+    Label(payment_window, text="💳 Payment", font=("Arial", 15, "bold"), bg="lightyellow").pack(pady=15)
 
     # Name
-    Label(payment_window, text="Full Name", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
+    Label(payment_window, text="Full Name", font=("Arial", 12, "bold"), bg="lightyellow").pack(anchor="w", padx=20)
     name_entry = Entry(payment_window, width=30, font=("Arial", 11), relief="solid", bd=1)
     name_entry.pack(pady=5, padx=20)
 
     # Address
-    Label(payment_window, text="Address", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
+    Label(payment_window, text="Address", font=("Arial", 12, "bold"), bg="lightyellow").pack(anchor="w", padx=20)
     address_entry = Entry(payment_window, width=30, font=("Arial", 11), relief="solid", bd=1)
     address_entry.pack(pady=5, padx=20)
 
     # Phone
-    Label(payment_window, text="Phone Number", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
+    Label(payment_window, text="Phone Number", font=("Arial", 12, "bold"), bg="lightyellow").pack(anchor="w", padx=20)
     phone_entry = Entry(payment_window, width=30, font=("Arial", 11), relief="solid", bd=1)
     phone_entry.pack(pady=5, padx=20)
 
     # Payment Method
-    Label(payment_window, text="Payment Method", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
-    method_var = StringVar(value="cash delivery")
-    OptionMenu(payment_window, method_var, "cash delivery").pack(pady=5, padx=20)
+    Label(payment_window, text="Payment Method", font=("Arial", 12, "bold"), bg="lightyellow").pack(anchor="w", padx=20)
+    method_var = StringVar(value="🚚 cash on delivery💵")
+    OptionMenu(payment_window, method_var, "🚚 cash on delivery 💵").pack(pady=5, padx=20)
 
     # Confirm Payment
     def confirm_payment():
@@ -226,7 +226,7 @@ def payments():
         messagebox.showinfo("Success", f"Payment processed successfully!\nMethod: {method_var.get()}")
         payment_window.destroy()
     
-    Button(payment_window, text="Confirm Payment", bg="#24272B", fg="white", 
+    Button(payment_window, text="🦴Confirm Payment", bg="#358B1B", fg="white", 
            font=("Arial", 12, "bold"), command=confirm_payment).pack(pady=20)
 
 # Submit Button Section
