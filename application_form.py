@@ -5,8 +5,8 @@ from datetime import datetime
 
 root = Tk()
 root.title("Dog Adoption Application Form")
-root.geometry("870x700")  # Increased size to fit all content
-root.configure(bg="skyblue")
+root.geometry("870x700")
+root.configure(bg="#E8F4FD")  # Light blue background instead of skyblue
 
 # Variables
 name_var = StringVar()
@@ -16,8 +16,6 @@ city_var = StringVar()
 state_var = StringVar()
 dog_name_var = StringVar()
 dog_breed_var = StringVar()
-emergency_name_var = StringVar()
-emergency_phone_var = StringVar()
 agreed_var = BooleanVar()
 
 # create database connection
@@ -33,83 +31,82 @@ conn.commit()
 conn.close()
 
 # Remove scrollable area - use direct frame
-main_container = Frame(root, bg="skyblue")
+main_container = Frame(root, bg="#E8F4FD")  # Match root background
 main_container.pack(fill="both", expand=True, padx=0, pady=0)
 
 # Header
-header_frame = Frame(main_container, bg="white", relief="solid", bd=1)  
+header_frame = Frame(main_container, bg="#E8F4FD")  # Changed from white
 header_frame.pack(fill="x", padx=0, pady=0)
 Label(header_frame, text="🐾 Dog Adoption Application Form 🐾", font=("Arial", 15, "bold"),
-        bg="white", fg="#272A2B").pack(pady=10)
+        bg="#E8F4FD", fg="#272A2B").pack(pady=10)  # Changed bg
 
 # Personal Information Section
 personal_frame = LabelFrame(main_container, text="1. Personal Information", 
-                           font=("Arial", 12, "bold"), bg="white", fg="#272A2B", 
-                           relief="solid", bd=1, padx=8, pady=5)
+                           font=("Arial", 12, "bold"), bg="#E8F4FD", fg="#272A2B", 
+                           relief="flat", bd=0, padx=8, pady=5)  # Changed bg
 personal_frame.pack(fill="x", padx=0, pady=5)
 
-Label(personal_frame, text="Full Name", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="w", padx=10, pady=5)
+Label(personal_frame, text="Full Name", font=("Arial", 10, "bold"), bg="#E8F4FD").grid(row=0, column=0, sticky="w", padx=10, pady=5)
 Entry(personal_frame, textvariable=name_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=1, padx=10, pady=5)
 
-Label(personal_frame, text="Email Address", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=2, sticky="w", padx=10, pady=5)
+Label(personal_frame, text="Email Address", font=("Arial", 10, "bold"), bg="#E8F4FD").grid(row=0, column=2, sticky="w", padx=10, pady=5)
 Entry(personal_frame, textvariable=email_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=3, padx=10, pady=5)
 
-Label(personal_frame, text="Phone Number", font=("Arial", 10, "bold"), bg="white").grid(row=1, column=0, sticky="w", padx=10, pady=5)
+Label(personal_frame, text="Phone Number", font=("Arial", 10, "bold"), bg="#E8F4FD").grid(row=1, column=0, sticky="w", padx=10, pady=5)
 Entry(personal_frame, textvariable=phone_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=1, column=1, padx=10, pady=5)
 
 # Address Information Section
 address_frame = LabelFrame(main_container, text="2. Address Information", 
-                          font=("Arial", 12, "bold"), bg="white", fg="#181A1A", 
-                          relief="solid", bd=1, padx=15, pady=10)
+                          font=("Arial", 12, "bold"), bg="#E8F4FD", fg="#181A1A", 
+                          relief="flat", bd=0, padx=15, pady=10)  # Changed bg
 address_frame.pack(fill="x", padx=0, pady=5)
 
-Label(address_frame, text="City", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="w", padx=10, pady=5)
+Label(address_frame, text="City", font=("Arial", 10, "bold"), bg="#E8F4FD").grid(row=0, column=0, sticky="w", padx=10, pady=5)
 Entry(address_frame, textvariable=city_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=1, padx=10, pady=5)
 
-Label(address_frame, text="State", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=2, sticky="w", padx=10, pady=5)
+Label(address_frame, text="State", font=("Arial", 10, "bold"), bg="#E8F4FD").grid(row=0, column=2, sticky="w", padx=10, pady=5)
 Entry(address_frame, textvariable=state_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=3, padx=10, pady=5)
 
 # Dog Information Section
 dog_frame = LabelFrame(main_container, text="3. Dog Information", 
-                      font=("Arial", 12, "bold"), bg="white", fg="#101111", 
-                      relief="solid", bd=1, padx=15, pady=10)
+                      font=("Arial", 12, "bold"), bg="#E8F4FD", fg="#101111", 
+                      relief="flat", bd=0, padx=15, pady=10)  # Changed bg
 dog_frame.pack(fill="x", padx=0, pady=5)
 
-Label(dog_frame, text="Dog Name", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="w", padx=10, pady=5)
+Label(dog_frame, text="Dog Name", font=("Arial", 10, "bold"), bg="#E8F4FD").grid(row=0, column=0, sticky="w", padx=10, pady=5)
 Entry(dog_frame, textvariable=dog_name_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=1, padx=10, pady=5)
 
-Label(dog_frame, text="Dog Breed", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=2, sticky="w", padx=10, pady=5)
+Label(dog_frame, text="Dog Breed", font=("Arial", 10, "bold"), bg="#E8F4FD").grid(row=0, column=2, sticky="w", padx=10, pady=5)
 Entry(dog_frame, textvariable=dog_breed_var, width=35, font=("Arial", 10), relief="solid", bd=1).grid(row=0, column=3, padx=10, pady=5)
 
 # Experience and Motivation Section
 experience_frame = LabelFrame(main_container, text="4. Experience & Motivation", 
-                             font=("Arial", 12, "bold"), bg="white", fg="#101111", 
-                             relief="solid", bd=1, padx=10, pady=5)
+                             font=("Arial", 12, "bold"), bg="#E8F4FD", fg="#101111", 
+                             relief="flat", bd=0, padx=10, pady=5)  # Changed bg
 experience_frame.pack(fill="x", padx=0, pady=5)
 
-Label(experience_frame, text="Previous Pet Experience", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=0, sticky="nw", padx=10, pady=5)
+Label(experience_frame, text="Previous Pet Experience", font=("Arial", 10, "bold"), bg="#E8F4FD").grid(row=0, column=0, sticky="nw", padx=10, pady=5)
 experience_text = Text(experience_frame, width=30, height=3, font=("Arial", 10), relief="solid", bd=1)
 experience_text.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
 
-Label(experience_frame, text="Why do you want to adopt?", font=("Arial", 10, "bold"), bg="white").grid(row=0, column=2, sticky="nw", padx=10, pady=5)
+Label(experience_frame, text="Why do you want to adopt?", font=("Arial", 10, "bold"), bg="#E8F4FD").grid(row=0, column=2, sticky="nw", padx=10, pady=5)
 reason_text = Text(experience_frame, width=30, height=3, font=("Arial", 10), relief="solid", bd=1)
 reason_text.grid(row=0, column=3, padx=10, pady=5, sticky="ew")
 
-# remove the  emergency contact section
 # Agreement Section
 agreement_frame = LabelFrame(main_container, text="5. Terms and Conditions", 
-                            font=("Arial", 12, "bold"), bg="white", fg="#0B0C0C", 
-                            relief="solid", bd=1, padx=5, pady=3)  # Reduced padding
+                            font=("Arial", 12, "bold"), bg="#E8F4FD", fg="#0B0C0C", 
+                            relief="flat", bd=0, padx=5, pady=3)  # Changed bg
 agreement_frame.pack(fill="x", padx=0, pady=5)
 
-agreement_inner_frame = Frame(agreement_frame, bg="white")
+agreement_inner_frame = Frame(agreement_frame, bg="#E8F4FD")  # Changed bg
 agreement_inner_frame.pack(fill="x", padx=5, pady=5)  # Reduced padding
 
 agreement_text = """ADOPTION AGREEMENT:
 By checking the box below, I agree to:
 • Provide proper care, food, water, shelter and veterinary care.
 • Never abandon, abuse or neglect the dog. 
-• You must be 18 over to able adopt dog.
+• You must be 18 over to able a adopt dog.
 • Return the dog to the shelter if unable to provide care.
 • Allow home visits for welfare checks if requested.
 • Follow all local licensing and vaccination requirements.
@@ -122,7 +119,7 @@ agreement_display.insert("1.0", agreement_text)
 agreement_display.config(state="disabled")
 
 Checkbutton(agreement_frame, text="I have read and agree to all terms and conditions above.", 
-           variable=agreed_var, bg="white", font=("Arial", 10, "bold"),  # Reduced font from 11 to 10
+           variable=agreed_var, bg="#E8F4FD", font=("Arial", 10, "bold"),  # Changed bg
            wraplength=500).pack(anchor="w", padx=5, pady=3)  # Reduced padding from 8,5 to 5,3
 
 # Submit function
@@ -180,7 +177,7 @@ def payments():
     payment_window.maxsize(0, 0)  # Reduced height since removing amount field
     payment_window.configure(bg="white")
     
-    Label(payment_window, text="💳 Payment Details", font=("Arial", 15, "bold"), bg="white").pack(pady=15)
+    Label(payment_window, text="💳 Payment", font=("Arial", 15, "bold"), bg="white").pack(pady=15)
 
     # Name
     Label(payment_window, text="Full Name", font=("Arial", 12, "bold"), bg="white").pack(anchor="w", padx=20)
@@ -233,14 +230,14 @@ def payments():
            font=("Arial", 12, "bold"), command=confirm_payment).pack(pady=20)
 
 # Submit Button Section
-button_frame = Frame(main_container, bg="skyblue")
+button_frame = Frame(main_container, bg="#E8F4FD")  # Changed bg
 button_frame.pack(fill="x", padx=0, pady=20)
 
 Button(button_frame, text="SUBMIT APPLICATION", bg="#367AE0", fg="white", 
        font=("Arial", 10, "bold"), command=submit, width=20, height=1,
        relief="solid", bd=1).pack(side="left", padx=10)
 Button(button_frame, text="CLEAR FORM", bg="#151414", fg="white", 
-       font=("Arial", 10), command=lambda: clear_form(), width=20, height=1,
+       font=("Arial", 10, "bold"), command=lambda: clear_form(), width=20, height=1,
        relief="solid", bd=1).pack(side="left", padx=10)
 Button(button_frame, text="PAYMENT", bg="#71B321", fg="white", 
        font=("Arial", 10, "bold"), command=payments, width=20, height=1,
