@@ -93,7 +93,8 @@ def open_register():
 
     reg_win = Toplevel(root)
     reg_win.title("Register")
-    reg_win.state("zoomed")
+    reg_win.geometry("800x600") 
+    reg_win.resizable(0,0) 
 
     bg_img = Image.open("images/brown.jpeg")
     bg_photo = ImageTk.PhotoImage(bg_img)
@@ -166,7 +167,8 @@ def open_login(): # Login window
 
     login_win = Toplevel(root)
     login_win.title("Login")
-    login_win.state("zoomed")
+    login_win.geometry("800x600")
+    login_win.resizable(0,0) 
 
     bg_img = Image.open("images/brown.jpeg")
     bg_photo = ImageTk.PhotoImage(bg_img)

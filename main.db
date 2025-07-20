@@ -1,0 +1,48 @@
+import sqlite3
+
+conn = sqlite3.connect("main.db")
+cursor = conn.cursor()
+
+# Users table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    username TEXT PRIMARY KEY,
+    password TEXT,
+    address TEXT,
+    email TEXT,
+    phone TEXT
+)
+""")
+
+# Adoption application table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS applications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    email TEXT,
+    phone TEXT,
+    city TEXT,
+    state TEXT,
+    dog_name TEXT,
+    dog_breed TEXT,
+    experience TEXT,
+    reason TEXT,
+    agreement TEXT,
+    submission_date TEXT
+)
+""")
+
+# Payment table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS payments (
+    payment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    address TEXT,
+    phone TEXT,
+    method TEXT,
+    timestamp TEXT
+)
+""")
+
+conn.commit()
+conn.close()
