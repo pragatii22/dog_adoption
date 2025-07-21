@@ -18,10 +18,10 @@ cursor = conn.cursor()
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS users (
     username TEXT PRIMARY KEY,
-    password TEXT,
+    password VARCHAR,
     address TEXT,
-    email TEXT,
-    phone TEXT
+    email VARCHAR,
+    phone TEXT,
 )
 """)
 conn.commit()
