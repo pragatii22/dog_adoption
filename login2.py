@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
+
+
 import sqlite3
 
 root = tk.Tk()
@@ -128,6 +130,9 @@ def open_login():
     login_win.geometry("300x250")
     login_win.config(bg="#e8f5e9")
 
+    
+
+
     tk.Label(login_win, text="Username",bg="#e8f5e9",font=("Arial",10,"bold")).pack(pady=(15,2))
     entry_user = tk.Entry(login_win,font=("Arial",10))
     entry_user.pack()
@@ -135,6 +140,17 @@ def open_login():
     tk.Label(login_win, text="Password",bg="#e8f5e9",font=("Arial",10,"bold")).pack(pady=(10,2))
     entry_pwd = tk.Entry(login_win, show="*",font=("Arial",10))
     entry_pwd.pack()
+
+    show_password_var = tk.BooleanVar()
+
+    
+    
+
+
+
+
+
+    
 
     show_password_var = tk.BooleanVar()
 
