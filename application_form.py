@@ -130,8 +130,11 @@ def submit():
     
     try:
         conn = sqlite3.connect("dog_adoption.db")
-        conn.execute("""CREATE TABLE IF NOT EXISTS applications (
-            id INTEGER PRIMARY KEY, 
+        
+        # Drop old table and create new one without emergency fields
+        conn.execute("DROP TABLE IF EXISTS applications")
+        conn.execute("""CREATE TABLE applications (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, 
             name TEXT, 
             email TEXT, 
             phone TEXT, 
@@ -143,6 +146,7 @@ def submit():
             reason TEXT,
             agreement TEXT, 
             submission_date TEXT)""")
+        
         conn.execute("""INSERT INTO applications VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?)""",
                     (name_var.get(), 
                      email_var.get(), 
