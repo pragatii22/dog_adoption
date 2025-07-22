@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
 
+
 root = Tk()
 root.title("Happy Hooves Adoption")
 root.geometry("1000x750")

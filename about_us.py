@@ -2,6 +2,8 @@ from tkinter import *
 from tkinter import messagebox
 from PIL import Image, ImageTk
 import sqlite3
+from admin import admin_interface
+
 
 # Main window setup
 root = Tk()
@@ -20,6 +22,22 @@ CREATE TABLE IF NOT EXISTS users (
     phone TEXT
 )
 """)
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS doginformation (    
+    dogname TEXT,
+    dogid TEXT,
+    dogage TEXT              
+)
+""")
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS admin_interface (    
+    username1 TEXT,
+    password1 TEXT                
+)
+""")
+cursor.execute("SELECT * FROM admin_interface WHERE username1 = ?", ("pragati",))
+if not cursor.fetchone():
+    cursor.execute("INSERT INTO admin_interface (username1, password1) VALUES (?, ?)", ("pragati", "1234"))
 conn.commit()
 
 # Background image
@@ -33,9 +51,10 @@ bg_label.lower()
 # Navigation bar
 nav_bar = Frame(root, bg="#ffffff", height=50)
 nav_bar.pack(fill=X)
-nav_items = ["Home", "Contact Us", "Available Dogs", "About Us", "Form"]
-for item in nav_items:
-    Button(nav_bar, text=item, font=("Helvetica", 10, "bold"), bg="#ffffff", bd=0).pack(side=LEFT, padx=15)
+nav_items = ["Available Dogs", "About Us"]
+
+Button(nav_bar, text="Available dogs", font=("Helvetica", 10, "bold"), bg="#F4F4F4", bd=0,).pack(side=LEFT, padx=15)
+Button(nav_bar, text="About Us", font=("Helvetica", 10, "bold"), bg="#ffffff", bd=0).pack(side=LEFT, padx=15)
 
 # Logo
 try:
@@ -43,7 +62,7 @@ try:
     paw_photo = ImageTk.PhotoImage(paw_img)
     logo_label = Label(root, image=paw_photo, bg="#ffffff")
     logo_label.image = paw_photo
-    logo_label.place(x=10, y=5)
+    logo_label.place(x=10, y=22)
 except:
     Label(root, text="[Paw Image Missing]", bg="#ffffff").place(x=10, y=5)
 
@@ -193,21 +212,38 @@ def open_login(): # Login window
 
     Checkbutton(form_frame, text="Show Password", variable=show_password_var,
                 command=toggle_password, bg="#ffffff").pack(pady=5)
-
+    
     def login_user():
         user = entry_user.get()
         pwd = entry_pwd.get()
-        cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (user, pwd))
-        result = cursor.fetchone()
-        if result:
-            messagebox.showinfo("Login", f"Welcome, {user}!")
+
+        if not user or not pwd:
+            messagebox.showerror("Login Failed", "Enter both phone number and password")
+            return 
+    
+        conn = sqlite3.connect("users.db")
+        cursor = conn.cursor()
+
+        # Check if admin
+        cursor.execute("SELECT * FROM admin_interface WHERE username1 = ? AND password1 = ?", (user, pwd)) 
+        admin_result = cursor.fetchone()
+
+        # Check if user
+        cursor.execute("SELECT * FROM users WHERE username = ? AND password = ?", (user, pwd)) 
+        user_result = cursor.fetchone()
+
+        conn.close()
+
+        if admin_result:
+            admin_interface()
+        elif user_result:
+            messagebox.showinfo("Login Success", f"Welcome {user}!")
+            btn_update_password.config(state="normal")  # Enable password update for users
             logged_in_user["username"] = user
-            btn_update_password.config(state="normal")
             login_win.destroy()
         else:
-            messagebox.showerror("Login Failed", "Invalid username or password.\nIf new user, please register first.")
-            logged_in_user["username"] = None
-            btn_update_password.config(state="disabled")
+            messagebox.showerror("Login Failed", "Invalid username or password")
+
 
     def open_update_password():
         user = logged_in_user["username"]

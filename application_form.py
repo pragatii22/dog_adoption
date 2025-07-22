@@ -19,7 +19,7 @@ dog_breed_var = StringVar()
 agreed_var = BooleanVar()
 
 # create database connection
-conn = sqlite3.connect("dog_adoption.db")
+conn = sqlite3.connect("users.db")
 c = conn.cursor()
 c.execute(
     """CREATE TABLE IF NOT EXISTS applications (
