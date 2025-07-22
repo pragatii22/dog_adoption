@@ -1,8 +1,12 @@
 from tkinter import *
 from PIL import Image, ImageTk
+from tkinter import messagebox
+import sqlite3
 import os
- 
-def available_dog1():
+from application_form import application_form1
+
+
+def available_dog():
     gallery = Toplevel()
     gallery.title("Available Dogs")
     gallery.state('zoomed')
@@ -53,26 +57,9 @@ def available_dog1():
 
     dog_photos = []  # Prevent garbage collection of images
 
-    row = None
-    for i, dog in enumerate(dogs):
-        if i % 3 == 0:
-            row = Frame(main_frame, bg="#e6f7ff")
-            row.pack(pady=30)
-
-        card = Frame(row, bg="white", bd=1, relief=SOLID, padx=10, pady=10)
-        card.pack(side=LEFT, padx=40)
-
-        img = Image.open(dog["img"])
-        img = img.resize((200, 200))
-        photo = ImageTk.PhotoImage(img)
-        dog_photos.append(photo)
-
-        btn = Button(card, image=photo, bd=0, bg="white", command=lambda d=dog: open_dog_profile(d))
-        btn.pack()
-        Label(card, text=dog["name"], font=("Arial", 14, "bold"), bg="white").pack(pady=5)
-
     def open_dog_profile(dog):
-        profile = Toplevel(gallery)
+
+        profile = Toplevel()
         profile.title(f"{dog['name']}'s Profile")
         profile.state('zoomed')
         profile.configure(bg="#f5e6cc")
@@ -105,7 +92,58 @@ def available_dog1():
         Label(right, text="\nAbout:", font=("Arial", 16, "bold"), bg="#f5e6cc").pack(anchor="w", pady=(10, 0))
         Label(right, text=dog["description"], font=("Arial", 14), wraplength=500, justify=LEFT, bg="#f5e6cc").pack(anchor="w", pady=5)
 
-        Button(profile, text="Adopt Me 🐾", font=("Arial", 14, "bold"),
-            bg="#4CAF50", fg="white", padx=20, pady=10).pack(pady=30)
+        Button(profile, text="Adopt Me 🐾", font=("Arial", 14, "bold"),command=application_form1,
+        bg="#4CAF50", fg="white", padx=20, pady=10).pack(pady=30)
+
+    def see_dog():
+        see=Toplevel()
+        see.title("check")
+        see.configure(bg="green")
+        see.geometry("400x200")
+        Label(see, text="Enter Phone Number :", font=("Arial", 15, "bold"),bg="green").pack(pady=20)
+        entry_ph = Entry(see, width=20, font=("Arial", 10))
+        entry_ph.pack(pady=5)
+
+        def btn_confirm():
+
+            entry_ph1 = entry_ph.get()
+            if not entry_ph1:
+                messagebox.showwarning("Warning", "Phone number is required")
+                return
+                
+            conn = sqlite3.connect("users.db")
+            cursor= conn.cursor()
+            cursor.execute("SELECT * FROM users WHERE phone = ?", (entry_ph1,))
+            result2=cursor.fetchone()
+            conn.commit()
+            conn.close()
+
+            if result2!=None:
+                open_dog_profile(dog)
+            else:
+                messagebox.showinfo("please", "Login First")
+                return
+
+            
+        btn1=Button(see, text="Confirm", font=("Arial", 16), fg="blue",command= btn_confirm)
+        btn1.pack(pady=14)
+
+    row = None
+    for i, dog in enumerate(dogs):
+        if i % 3 == 0:
+            row = Frame(main_frame, bg="#e6f7ff")
+            row.pack(pady=30)
+
+        card = Frame(row, bg="white", bd=1, relief=SOLID, padx=10, pady=10)
+        card.pack(side=LEFT, padx=40)
+
+        img = Image.open(dog["img"])
+        img = img.resize((200, 200))
+        photo = ImageTk.PhotoImage(img)
+        dog_photos.append(photo)
+
+        btn = Button(card, image=photo, bd=0, bg="white", command=see_dog)
+        btn.pack()
+        Label(card, text=dog["name"], font=("Arial", 14, "bold"), bg="white").pack(pady=5)
 
     gallery.mainloop()
