@@ -1,100 +1,62 @@
 from tkinter import *
 from PIL import Image, ImageTk
-
-
-root = Tk()
-root.title("Happy Hooves Adoption")
-root.geometry("1000x750")
-root.configure(bg="white")
-
-# 🐶 Dog Data (with description)
-dogs = [
-    {
-        "name": "Buddy", "breed": "Labrador Retriever", "age": "2 years",
-        "gender": "Male", "color": "Golden", "weight": "10 kg", "img": "dog1.png",
-        "description": "Buddy is a playful and loving Labrador. Great with kids and very loyal."
-    },
-    {
-        "name": "Lucy", "breed": "Beagle", "age": "1.5 years",
-        "gender": "Female", "color": "Brown & White", "weight": "12 kg", "img": "dog2.png",
-        "description": "Lucy is energetic and loves to sniff around. She’s friendly and curious!"
-    },
-    {
-        "name": "Charlie", "breed": "Pomeranian", "age": "3 years",
-        "gender": "Male", "color": "White", "weight": "6 kg", "img": "dog3.png",
-        "description": "Charlie is a fluffy ball of joy. Perfect for cuddles and short walks!"
-    },
-    {
-        "name": "Daisy", "breed": "Golden Retriever", "age": "2.5 years",
-        "gender": "Female", "color": "White", "weight": "13 kg", "img": "dog4.png",
-        "description": "Daisy is calm and gentle. She’s great with families and loves affection."
-    },
-    {
-        "name": "Max", "breed": "German Shepherd", "age": "4 years",
-        "gender": "Male", "color": "Black", "weight": "15 kg", "img": "dog5.png",
-        "description": "Max is protective and intelligent. He’s a brave friend and very obedient."
-    },
-]
-
-dog_photos = []
-
-# 🪟 Dog Profile Page - Fullscreen
-def open_dog_profile(dog):
-    profile = Toplevel(root)
-    profile.title(f"{dog['name']}'s Profile")
-    profile.state('zoomed')
-    profile.configure(bg="white")
-
-    Label(profile, text=f"{dog['name']}'s Profile", font=("Arial", 28, "bold"), bg="white").pack(pady=20)
-
-    content = Frame(profile, bg="white")
-    content.pack(pady=10, padx=40, fill=BOTH, expand=True)
-
-    # Left - Big Dog Image
-    left = Frame(content, bg="white")
-    left.pack(side=LEFT, padx=50)
-
-    img = Image.open(dog["img"])
-    img = img.resize((400, 400))
-    photo = ImageTk.PhotoImage(img)
-    dog_photos.append(photo)
-
-    Label(left, image=photo, bg="white").pack()
-
-    # Right - Dog Details
-    right = Frame(content, bg="white")
-    right.pack(side=LEFT, padx=50, anchor="n")
-
-    Label(right, text=f"Name: {dog['name']}", font=("Arial", 18, "bold"), bg="white").pack(anchor="w", pady=5)
-    Label(right, text=f"Breed: {dog['breed']}", font=("Arial", 16), bg="white").pack(anchor="w", pady=2)
-    Label(right, text=f"Age: {dog['age']}", font=("Arial", 16), bg="white").pack(anchor="w", pady=2)
-    Label(right, text=f"Gender: {dog['gender']}", font=("Arial", 16), bg="white").pack(anchor="w", pady=2)
-    Label(right, text=f"Color: {dog['color']}", font=("Arial", 16), bg="white").pack(anchor="w", pady=2)
-    Label(right, text=f"Weight: {dog['weight']}", font=("Arial", 16), bg="white").pack(anchor="w", pady=2)
-
-    # Dog description
-    Label(right, text="\nAbout:", font=("Arial", 16, "bold"), bg="white").pack(anchor="w", pady=(10, 0))
-    Label(right, text=dog["description"], font=("Arial", 14), wraplength=500, justify=LEFT, bg="white").pack(anchor="w", pady=5)
-
-    Button(profile, text="Adopt Me 🐾", font=("Arial", 14, "bold"),
-           bg="#4CAF50", fg="white", padx=20, pady=10).pack(pady=30)
-
-# 🖼️ Dog Gallery Page
-def show_dog_gallery():
-    gallery = Toplevel(root)
+import os
+ 
+def available_dog1():
+    gallery = Toplevel()
     gallery.title("Available Dogs")
     gallery.state('zoomed')
-    gallery.configure(bg="white")
+    gallery.configure(bg="#e6f7ff")
 
-    Label(gallery, text="🐶 Available Dogs for Adoption 🐾", font=("Arial", 26, "bold"), bg="white").pack(pady=30)
+    Label(gallery, text="🐶 Available Dogs for Adoption 🐾", font=("Arial", 26, "bold"), bg="#e6f7ff").pack(pady=30)
 
-    main_frame = Frame(gallery, bg="white")
+    main_frame = Frame(gallery, bg="#e6f7ff")
     main_frame.pack(pady=10)
+
+
+    # 🔧 Base directory for images
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    # 🐶 Dog Data 
+    dogs = [
+        {
+            "name": "Buddy", "breed": "Labrador Retriever", "age": "2 years",
+            "gender": "Male", "color": "Golden", "weight": "10 kg",
+            "img": os.path.join(BASE_DIR, "images", "dog1.png"),
+            "description": "Buddy is a playful and loving Labrador. Great with kids and very loyal. Friendly, intelligent, and loyal. Great with families and kids. Loves swimming and outdoor play. Needs regular exercise. Easy to train and very social."
+        },
+        {
+            "name": "Lucy", "breed": "Beagle", "age": "1.5 years",
+            "gender": "Female", "color": "Brown & White", "weight": "12 kg",
+            "img": os.path.join(BASE_DIR, "images", "dog2.png"),
+            "description": "Lucy is energetic and loves to sniff around. She’s friendly and curious! Small, curious, and energetic. Known for strong sense of smell. Friendly with children and other pets. Needs walks and playtime to stay happy. A bit stubborn in training."
+        },
+        {
+            "name": "Charlie", "breed": "Pomeranian", "age": "3 years",
+            "gender": "Male", "color": "White", "weight": "6 kg",
+            "img": os.path.join(BASE_DIR, "images", "dog3.png"),
+            "description": "Charlie is a fluffy ball of joy. Perfect for cuddles and short walks! Tiny, fluffy, and alert. Big personality in a small body. Very loyal and active indoors. Needs brushing due to thick fur. Can be vocal and protective."
+        },
+        {
+            "name": "Daisy", "breed": "Golden Retriever", "age": "2.5 years",
+            "gender": "Female", "color": "White", "weight": "13 kg",
+            "img": os.path.join(BASE_DIR, "images", "dog4.png"),
+            "description": "Daisy is calm and gentle. She’s great with families and loves affection. Gentle, loyal, and super friendly. Excellent with kids and families. Intelligent and easy to train. Needs regular walks and loves playing fetch. Sheds a lot."
+        },
+        {
+            "name": "Max", "breed": "German Shepherd", "age": "4 years",
+            "gender": "Male", "color": "Black", "weight": "15 kg",
+            "img": os.path.join(BASE_DIR, "images", "dog5.png"),
+            "description": "Max is protective and intelligent. He’s a brave friend and very obedient. Smart, brave, and hardworking. Often used in police and guard work. Protective of family. Needs training and lots of exercise. Very loyal and alert."
+        },
+    ]
+
+    dog_photos = []  # Prevent garbage collection of images
 
     row = None
     for i, dog in enumerate(dogs):
         if i % 3 == 0:
-            row = Frame(main_frame, bg="white")
+            row = Frame(main_frame, bg="#e6f7ff")
             row.pack(pady=30)
 
         card = Frame(row, bg="white", bd=1, relief=SOLID, padx=10, pady=10)
@@ -109,10 +71,41 @@ def show_dog_gallery():
         btn.pack()
         Label(card, text=dog["name"], font=("Arial", 14, "bold"), bg="white").pack(pady=5)
 
-# 🏠 HOME PAGE
+    def open_dog_profile(dog):
+        profile = Toplevel(gallery)
+        profile.title(f"{dog['name']}'s Profile")
+        profile.state('zoomed')
+        profile.configure(bg="#f5e6cc")
 
+        Label(profile, text=f"{dog['name']}'s Profile", font=("Arial", 28, "bold"), bg="#f5e6cc").pack(pady=20)
 
-Button(root, text="Available Dogs", font=("Arial", 16, "bold"),
-       bg="black", fg="white", padx=40, pady=15, command=show_dog_gallery).pack()
+        content = Frame(profile, bg="#f5e6cc")
+        content.pack(pady=10, padx=40, fill=BOTH, expand=True)
 
-root.mainloop()
+        left = Frame(content, bg="#f5e6cc")
+        left.pack(side=LEFT, padx=50)
+
+        img = Image.open(dog["img"])
+        img = img.resize((400, 400))
+        photo = ImageTk.PhotoImage(img)
+        dog_photos.append(photo)  # Prevent image garbage collection
+
+        Label(left, image=photo, bg="#f5e6cc").pack()
+
+        right = Frame(content, bg="#f5e6cc")
+        right.pack(side=LEFT, padx=50, anchor="n")
+
+        Label(right, text=f"Name: {dog['name']}", font=("Arial", 18, "bold"), bg="#f5e6cc").pack(anchor="w", pady=5)
+        Label(right, text=f"Breed: {dog['breed']}", font=("Arial", 16), bg="#f5e6cc").pack(anchor="w", pady=2)
+        Label(right, text=f"Age: {dog['age']}", font=("Arial", 16), bg="#f5e6cc").pack(anchor="w", pady=2)
+        Label(right, text=f"Gender: {dog['gender']}", font=("Arial", 16), bg="#f5e6cc").pack(anchor="w", pady=2)
+        Label(right, text=f"Color: {dog['color']}", font=("Arial", 16), bg="#f5e6cc").pack(anchor="w", pady=2)
+        Label(right, text=f"Weight: {dog['weight']}", font=("Arial", 16), bg="#f5e6cc").pack(anchor="w", pady=2)
+
+        Label(right, text="\nAbout:", font=("Arial", 16, "bold"), bg="#f5e6cc").pack(anchor="w", pady=(10, 0))
+        Label(right, text=dog["description"], font=("Arial", 14), wraplength=500, justify=LEFT, bg="#f5e6cc").pack(anchor="w", pady=5)
+
+        Button(profile, text="Adopt Me 🐾", font=("Arial", 14, "bold"),
+            bg="#4CAF50", fg="white", padx=20, pady=10).pack(pady=30)
+
+    gallery.mainloop()

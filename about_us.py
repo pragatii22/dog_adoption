@@ -3,7 +3,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 import sqlite3
 from admin import admin_interface
-
+from available_dog import available_dog1
 
 # Main window setup
 root = Tk()
@@ -53,7 +53,7 @@ nav_bar = Frame(root, bg="#ffffff", height=50)
 nav_bar.pack(fill=X)
 nav_items = ["Available Dogs", "About Us"]
 
-Button(nav_bar, text="Available dogs", font=("Helvetica", 10, "bold"), bg="#F4F4F4", bd=0,).pack(side=LEFT, padx=15)
+Button(nav_bar, text="Available dogs", font=("Helvetica", 10, "bold"), bg="#F4F4F4", bd=0,command=available_dog1).pack(side=LEFT, padx=15)
 Button(nav_bar, text="About Us", font=("Helvetica", 10, "bold"), bg="#ffffff", bd=0).pack(side=LEFT, padx=15)
 
 # Logo
