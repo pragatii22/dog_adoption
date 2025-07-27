@@ -17,11 +17,11 @@ conn = sqlite3.connect("users.db")
 cursor = conn.cursor()
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS users (
-    username TEXT PRIMARY KEY,
-    password VARCHAR,
+    username TEXT,
+    password TEXT,
     address TEXT,
-    email VARCHAR,
-    phone TEXT,
+    email TEXT,
+    phone TEXT 
 )
 """)
 conn.commit()
