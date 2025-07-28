@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS doginformation (
     dogage TEXT              
 )
 """)
+
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS admin_interface (    
     username1 TEXT,
