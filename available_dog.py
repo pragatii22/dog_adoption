@@ -27,31 +27,36 @@ def available_dog():
             "name": "Buddy", "breed": "Labrador Retriever", "age": "2 years",
             "gender": "Male", "color": "Golden", "weight": "10 kg",
             "img": os.path.join(BASE_DIR, "images", "dog1.png"),
-            "description": "Buddy is a playful and loving Labrador. Great with kids and very loyal. Friendly, intelligent, and loyal. Great with families and kids. Loves swimming and outdoor play. Needs regular exercise. Easy to train and very social."
+            "description": "Buddy is a playful and loving Labrador. Great with kids and very loyal. Friendly, intelligent, and loyal. Great with families and kids. Loves swimming and outdoor play. Needs regular exercise. Easy to train and very social.",
+            "adopted": False
         },
         {
             "name": "Lucy", "breed": "Beagle", "age": "1.5 years",
             "gender": "Female", "color": "Brown & White", "weight": "12 kg",
             "img": os.path.join(BASE_DIR, "images", "dog2.png"),
-            "description": "Lucy is energetic and loves to sniff around. She’s friendly and curious! Small, curious, and energetic. Known for strong sense of smell. Friendly with children and other pets. Needs walks and playtime to stay happy. A bit stubborn in training."
+            "description": "Lucy is energetic and loves to sniff around. She’s friendly and curious! Small, curious, and energetic. Known for strong sense of smell. Friendly with children and other pets. Needs walks and playtime to stay happy. A bit stubborn in training.",
+            "adopted": False
         },
         {
             "name": "Charlie", "breed": "Pomeranian", "age": "3 years",
             "gender": "Male", "color": "White", "weight": "6 kg",
             "img": os.path.join(BASE_DIR, "images", "dog3.png"),
-            "description": "Charlie is a fluffy ball of joy. Perfect for cuddles and short walks! Tiny, fluffy, and alert. Big personality in a small body. Very loyal and active indoors. Needs brushing due to thick fur. Can be vocal and protective."
+            "description": "Charlie is a fluffy ball of joy. Perfect for cuddles and short walks! Tiny, fluffy, and alert. Big personality in a small body. Very loyal and active indoors. Needs brushing due to thick fur. Can be vocal and protective.",
+            "adopted": False
         },
         {
             "name": "Daisy", "breed": "Golden Retriever", "age": "2.5 years",
             "gender": "Female", "color": "White", "weight": "13 kg",
             "img": os.path.join(BASE_DIR, "images", "dog4.png"),
-            "description": "Daisy is calm and gentle. She’s great with families and loves affection. Gentle, loyal, and super friendly. Excellent with kids and families. Intelligent and easy to train. Needs regular walks and loves playing fetch. Sheds a lot."
+            "description": "Daisy is calm and gentle. She’s great with families and loves affection. Gentle, loyal, and super friendly. Excellent with kids and families. Intelligent and easy to train. Needs regular walks and loves playing fetch. Sheds a lot.",
+            "adopted": False
         },
         {
             "name": "Max", "breed": "German Shepherd", "age": "4 years",
             "gender": "Male", "color": "Black", "weight": "15 kg",
             "img": os.path.join(BASE_DIR, "images", "dog5.png"),
-            "description": "Max is protective and intelligent. He’s a brave friend and very obedient. Smart, brave, and hardworking. Often used in police and guard work. Protective of family. Needs training and lots of exercise. Very loyal and alert."
+            "description": "Max is protective and intelligent. He’s a brave friend and very obedient. Smart, brave, and hardworking. Often used in police and guard work. Protective of family. Needs training and lots of exercise. Very loyal and alert.",
+            "adopted": False
         },
     ]
 
@@ -95,37 +100,34 @@ def available_dog():
         Button(profile, text="Adopt Me 🐾", font=("Arial", 14, "bold"),command=application_form1,
         bg="#4CAF50", fg="white", padx=20, pady=10).pack(pady=30)
 
-    def see_dog():
-        see=Toplevel()
+    def see_dog(dog):  # accept specific dog
+        see = Toplevel()
         see.title("check")
         see.configure(bg="green")
         see.geometry("400x200")
-        Label(see, text="Enter Phone Number :", font=("Arial", 15, "bold"),bg="green").pack(pady=20)
+        Label(see, text="Enter Phone Number :", font=("Arial", 15, "bold"), bg="green").pack(pady=20)
         entry_ph = Entry(see, width=20, font=("Arial", 10))
         entry_ph.pack(pady=5)
 
         def btn_confirm():
-
             entry_ph1 = entry_ph.get()
             if not entry_ph1:
                 messagebox.showwarning("Warning", "Phone number is required")
                 return
-                
+
             conn = sqlite3.connect("users.db")
-            cursor= conn.cursor()
+            cursor = conn.cursor()
             cursor.execute("SELECT * FROM users WHERE phone = ?", (entry_ph1,))
-            result2=cursor.fetchone()
+            result2 = cursor.fetchone()
             conn.commit()
             conn.close()
 
-            if result2!=None:
+            if result2:
                 open_dog_profile(dog)
             else:
                 messagebox.showinfo("please", "Login First")
-                return
 
-            
-        btn1=Button(see, text="Confirm", font=("Arial", 16), fg="blue",command= btn_confirm)
+        btn1 = Button(see, text="Confirm", font=("Arial", 16), fg="blue", command=btn_confirm)
         btn1.pack(pady=14)
 
     row = None
@@ -142,8 +144,15 @@ def available_dog():
         photo = ImageTk.PhotoImage(img)
         dog_photos.append(photo)
 
-        btn = Button(card, image=photo, bd=0, bg="white", command=see_dog)
+        # btn = Button(card, image=photo, bd=0, bg="white", command=see_dog)
+        btn = Button(card, image=photo, bd=0, bg="white", command=lambda d=dog: see_dog(d))
         btn.pack()
+        if dog.get("adopted"):  # check adoption flag
+            Label(card, text="ADOPTED", font=("Arial", 10, "bold"),
+                fg="white", bg="red", padx=5).place(x=5, y=5)
+        else:
+            Label(card, text="Available", font=("Arial", 10, "bold"),
+                fg="green", bg="white").place(x=5, y=5)
         Label(card, text=dog["name"], font=("Arial", 14, "bold"), bg="white").pack(pady=5)
 
     gallery.mainloop()
