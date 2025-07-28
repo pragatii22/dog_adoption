@@ -3,6 +3,7 @@ from PIL import Image, ImageTk
 from tkinter import messagebox
 import sqlite3
 import os
+from application_form import application_form1
 
 
 def available_dog():
@@ -18,7 +19,7 @@ def available_dog():
 
 
     # 🔧 Base directory for images
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
 
     # 🐶 Dog Data 
     dogs = [
@@ -54,7 +55,7 @@ def available_dog():
         },
     ]
 
-    dog_photos = [] # Prevent garbage collection of images
+    dog_photos = []  # Prevent garbage collection of images
 
     def open_dog_profile(dog):
 
@@ -74,7 +75,7 @@ def available_dog():
         img = Image.open(dog["img"])
         img = img.resize((400, 400))
         photo = ImageTk.PhotoImage(img)
-        dog_photos.append(photo) # Prevent image garbage collection
+        dog_photos.append(photo)  # Prevent image garbage collection
 
         Label(left, image=photo, bg="#f5e6cc").pack()
 
@@ -91,7 +92,7 @@ def available_dog():
         Label(right, text="\nAbout:", font=("Arial", 16, "bold"), bg="#f5e6cc").pack(anchor="w", pady=(10, 0))
         Label(right, text=dog["description"], font=("Arial", 14), wraplength=500, justify=LEFT, bg="#f5e6cc").pack(anchor="w", pady=5)
 
-        Button(profile, text="Adopt Me 🐾", font=("Arial", 14, "bold"),
+        Button(profile, text="Adopt Me 🐾", font=("Arial", 14, "bold"),command=application_form1,
         bg="#4CAF50", fg="white", padx=20, pady=10).pack(pady=30)
 
     def see_dog():
@@ -118,8 +119,10 @@ def available_dog():
             conn.close()
 
             if result2!=None:
+                open_dog_profile(dog)
+            else:
                 messagebox.showinfo("please", "Login First")
-            open_dog_profile(dog)
+                return
 
             
         btn1=Button(see, text="Confirm", font=("Arial", 16), fg="blue",command= btn_confirm)

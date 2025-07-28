@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 import sqlite3
 from admin import admin_interface
 from available_dog import available_dog
+
 from contact import contact_interface
 
 # Main window setup
@@ -99,7 +100,7 @@ def open_register():
     def register_user():
         username = entry_username.get()
         password = entry_password.get()
-        email = entry_email.get()
+        email = entry_email.get() 
         address = entry_address.get()
         phone_no = entry_phone_no.get()
         if not (username and password and address and email and phone_no):

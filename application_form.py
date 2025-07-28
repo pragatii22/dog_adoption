@@ -131,7 +131,7 @@ def application_form1():
             return
         
         try:
-            conn = sqlite3.connect("dog_adoption.db")
+            conn = sqlite3.connect("users.db")
             
             # Drop old table and create new one without emergency fields
             conn.execute("DROP TABLE IF EXISTS applications")
@@ -212,7 +212,7 @@ def application_form1():
                 return
             
             # Create simple payment table and insert data (without amount)
-            conn = sqlite3.connect("dog_adoption.db")
+            conn = sqlite3.connect("users.db")
             conn.execute("""CREATE TABLE IF NOT EXISTS payments (
                 id INTEGER PRIMARY KEY, 
                 name TEXT, 
