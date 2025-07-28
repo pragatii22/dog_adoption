@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 import sqlite3
 from admin import admin_interface
 from available_dog import available_dog
+from contact import contact_interface
 
 # Main window setup
 root = Tk()
@@ -54,7 +55,9 @@ nav_bar.pack(fill=X)
 nav_items = ["Available Dogs", "About Us"]
 
 Button(nav_bar, text="Available dogs", font=("Helvetica", 10, "bold"), bg="#F4F4F4", bd=0,command=available_dog).pack(side=LEFT, padx=15)
-Button(nav_bar, text="About Us", font=("Helvetica", 10, "bold"), bg="#ffffff", bd=0).pack(side=LEFT, padx=15)
+Button(nav_bar, text="About Us", font=("Helvetica", 10, "bold"), bg="#ffffff", bd=0, command=contact_interface).pack(side=LEFT, padx=15)
+
+
 
 # Logo
 try:
@@ -258,6 +261,8 @@ def open_login(): # Login window
 
     Button(form_frame, text="Login", bg="#1e88e5", fg="white",
            font=("Arial", 11, "bold"), command=login_user).pack(pady=10, ipadx=10, ipady=5)
+
+
 
 # Starts the main loop
 root.mainloop()
