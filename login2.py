@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS users (
     username TEXT,
     password TEXT,
     address TEXT,
-    email TEXT,
-    phone TEXT 
+    email VARCHAR,
+    phone CHAR(10) 
 )
 """)
 conn.commit()

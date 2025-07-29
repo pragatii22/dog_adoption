@@ -4,7 +4,6 @@ from PIL import Image, ImageTk
 import sqlite3
 from admin import admin_interface
 from available_dog import available_dog
-
 from contact import contact_interface
 
 # Main window setup
@@ -20,14 +19,14 @@ CREATE TABLE IF NOT EXISTS users (
     username TEXT PRIMARY KEY,
     password TEXT,
     address TEXT,
-    email TEXT,
-    phone TEXT
+    email VARCHAR,
+    phone CHAR(10)
 )
 """)
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS doginformation (    
     dogname TEXT,
-    dogid TEXT,
+    dogid CHAR,
     dogage TEXT              
 )
 """)
@@ -58,8 +57,6 @@ nav_items = ["Available Dogs", "About Us"]
 
 Button(nav_bar, text="Available dogs", font=("Helvetica", 10, "bold"), bg="#F4F4F4", bd=0,command=available_dog).pack(side=LEFT, padx=15)
 Button(nav_bar, text="About Us", font=("Helvetica", 10, "bold"), bg="#ffffff", bd=0, command=contact_interface).pack(side=LEFT, padx=15)
-
-
 
 # Logo
 try:
@@ -96,7 +93,47 @@ Label(footer, text="Rated 4.9/5 by our happy adopters!", bg="#f5f5f5", font=("He
 Label(footer, text="Follow us: Facebook | Twitter | Instagram", bg="#f5f5f5", fg="blue", font=("Helvetica", 10)).pack(pady=4)
 Label(footer, text="© 2025 Heaven of Happy Hooves. All rights reserved.", bg="#f5f5f5", font=("Helvetica", 9)).pack()
 
-# Register window
+# Password change window needs to be accessible
+logged_in_user = {"username": None}
+
+def open_change_password():
+    username = logged_in_user["username"]
+    if not username:
+        messagebox.showwarning("Not Logged In", "Please login first to update your password.")
+        return
+
+    change_password_win = Toplevel(root)
+    change_password_win.title("Change Password")
+    change_password_win.geometry("300x180")
+    change_password_win.config(bg="#fff3e0")
+
+    Label(change_password_win, text=f"Change Password ", bg="#fff3e0", font=("Arial", 11, "bold")).pack(pady=5)
+    Label(change_password_win, text="Old Password", bg="#fff3e0").pack()
+    entry_old_password = Entry(change_password_win, show="*")
+    entry_old_password.pack()
+    Label(change_password_win, text="New Password", bg="#fff3e0").pack()
+    entry_new_password = Entry(change_password_win, show="*")
+    entry_new_password.pack()
+
+    def change_password():
+        old_password = entry_old_password.get()
+        new_password = entry_new_password.get()
+        if not (old_password and new_password):
+            messagebox.showwarning("Input Error", "All fields are required")
+            return
+        cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, old_password))
+        result = cursor.fetchone()
+        if result:
+            cursor.execute("UPDATE users SET password=? WHERE username=?", (new_password, username))
+            conn.commit()
+            messagebox.showinfo("Success", "Password changed successfully!")
+            change_password_win.destroy()
+        else:
+            messagebox.showerror("Error", "Old password incorrect")
+
+    Button(change_password_win, text="Change Password", bg="#e5dad1", fg="white",
+           font=("Arial", 11, "bold"), command=change_password).pack(pady=10)
+
 def open_register():
     def register_user():
         username = entry_username.get()
@@ -152,43 +189,7 @@ def open_register():
     Button(form_frame, text="Register", command=register_user, bg="#43a047", fg="white",
            font=("Arial", 11, "bold")).pack(pady=10, ipadx=10, ipady=5)
 
-# password changing window
-def open_change_password(username):
-    change_password_win = Toplevel(root)
-    change_password_win.title("Change Password")
-    change_password_win.geometry("300x180")
-    change_password_win.config(bg="#fff3e0")
-
-    Label(change_password_win, text=f"Change Password for {username}", bg="#fff3e0", font=("Arial", 11, "bold")).pack(pady=5)
-    Label(change_password_win, text="Old Password", bg="#fff3e0").pack()
-    entry_old_password = Entry(change_password_win, show="*")
-    entry_old_password.pack()
-    Label(change_password_win, text="New Password", bg="#fff3e0").pack()
-    entry_new_password = Entry(change_password_win, show="*")
-    entry_new_password.pack()
-
-    def change_password():
-        old_password = entry_old_password.get()
-        new_password = entry_new_password.get()
-        if not (old_password and new_password):
-            messagebox.showwarning("Input Error", "All fields are required")
-            return
-        cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, old_password))
-        result = cursor.fetchone()
-        if result:
-            cursor.execute("UPDATE users SET password=? WHERE username=?", (new_password, username))
-            conn.commit()
-            messagebox.showinfo("Success", "Password changed successfully!")
-            change_password_win.destroy()
-        else:
-            messagebox.showerror("Error", "Old password incorrect")
-
-    Button(change_password_win, text="Change Password", bg="#ef6c00", fg="white",
-           font=("Arial", 11, "bold"), command=change_password).pack(pady=10)
-
-def open_login(): # Login window
-    logged_in_user = {"username": None}
-
+def open_login():
     login_win = Toplevel(root)
     login_win.title("Login")
     login_win.geometry("800x600")
@@ -217,15 +218,15 @@ def open_login(): # Login window
 
     Checkbutton(form_frame, text="Show Password", variable=show_password_var,
                 command=toggle_password, bg="#ffffff").pack(pady=5)
-    
+
     def login_user():
         user = entry_user.get()
         pwd = entry_pwd.get()
 
         if not user or not pwd:
-            messagebox.showerror("Login Failed", "Enter both phone number and password")
+            messagebox.showerror("Login Failed", "Enter both Username and password.")
             return 
-    
+
         conn = sqlite3.connect("users.db")
         cursor = conn.cursor()
 
@@ -243,28 +244,16 @@ def open_login(): # Login window
             admin_interface()
         elif user_result:
             messagebox.showinfo("Login Success", f"Welcome {user}!")
-            btn_update_password.config(state="normal")  # Enable password update for users
             logged_in_user["username"] = user
             login_win.destroy()
         else:
             messagebox.showerror("Login Failed", "Invalid username or password")
 
-
-    def open_update_password():
-        user = logged_in_user["username"]
-        if not user:
-            messagebox.showwarning("Not Logged In", "Please login first to update your password.")
-            return
-        open_change_password(user)
-
-    btn_update_password = Button(form_frame, text="Update Password", bg="#43a047", fg="white",
-                                 font=("Arial", 11, "bold"), command=open_update_password, state="disabled")
-    btn_update_password.pack(pady=(10, 5), ipadx=10, ipady=5)
-
     Button(form_frame, text="Login", bg="#1e88e5", fg="white",
            font=("Arial", 11, "bold"), command=login_user).pack(pady=10, ipadx=10, ipady=5)
 
-
+    Button(form_frame, text="Update Password", bg="#43a047", fg="white",
+           font=("Arial", 11, "bold"), command=open_change_password).pack(pady=5, ipadx=10, ipady=5)
 
 # Starts the main loop
 root.mainloop()

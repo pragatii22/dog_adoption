@@ -127,7 +127,7 @@ def application_form1():
     # Submit function
     def submit():
         if not all([name_var.get(), email_var.get(), phone_var.get(), agreed_var.get()]):
-            messagebox.showerror("Error", "Please fill required fields and agree to terms")
+            messagebox.showerror("Error", "Agree to terms")
             return
         
         try:
@@ -138,8 +138,8 @@ def application_form1():
             conn.execute("""CREATE TABLE applications (
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 name TEXT, 
-                email TEXT, 
-                phone TEXT, 
+                email VARCHAR, 
+                phone CHAR, 
                 city TEXT, 
                 state TEXT,
                 dog_name TEXT, 
