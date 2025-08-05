@@ -141,7 +141,4 @@ def admin_interface():
     admin_logout_btn = Button(admin_frame, text="Log Out", font=("Arial", 14), width=18, fg="red",command=logout)
     admin_logout_btn.place(x=30, y=230)
 
-
-
-
     admin.mainloop()

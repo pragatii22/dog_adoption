@@ -114,9 +114,9 @@ def application_form1():
     • Follow all local licensing and vaccination requirements.
     • Provide a permanent, loving home for the dog's lifetime."""
 
-    agreement_display = Text(agreement_inner_frame, height=4, width=80, font=("Arial", 9),  # Reduced height from 6 to 4, width from 90 to 80, font from 10 to 9
-                            wrap="word", bg="#F7EBEB", relief="solid", bd=1)  # Reduced border from 2 to 1
-    agreement_display.pack(fill="x", pady=3)  # Reduced padding from 5 to 3
+    agreement_display = Text(agreement_inner_frame, height=4, width=80, font=("Arial", 9),  
+                            wrap="word", bg="#F7EBEB", relief="solid", bd=1)  # Reduced border 
+    agreement_display.pack(fill="x", pady=3)  # Reduced padding 
     agreement_display.insert("1.0", agreement_text)
     agreement_display.config(state="disabled")
 

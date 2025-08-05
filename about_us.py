@@ -93,7 +93,6 @@ Label(footer, text="Rated 4.9/5 by our happy adopters!", bg="#f5f5f5", font=("He
 Label(footer, text="Follow us: Facebook | Twitter | Instagram", bg="#f5f5f5", fg="blue", font=("Helvetica", 10)).pack(pady=4)
 Label(footer, text="© 2025 Heaven of Happy Hooves. All rights reserved.", bg="#f5f5f5", font=("Helvetica", 9)).pack()
 
-# Password change window needs to be accessible
 logged_in_user = {"username": None}
 
 def open_change_password():
